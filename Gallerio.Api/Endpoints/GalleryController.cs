@@ -10,11 +10,11 @@ namespace Gallerio.Api.Endpoints
     [ApiController]
     public class GalleryController : ControllerBase
     {
-        private readonly IGalleryProvider _galleryReadOnlyRepo;
+        private readonly IGalleryProvider _galleryProvider;
 
         public GalleryController(IGalleryProvider galleryProvider)
         {
-            this._galleryReadOnlyRepo = galleryProvider;
+            this._galleryProvider = galleryProvider;
         }
 
         [HttpGet]
@@ -23,7 +23,7 @@ namespace Gallerio.Api.Endpoints
         {
             try
             {
-                var gallery = await _galleryReadOnlyRepo.FindGallery(id);
+                var gallery = await _galleryProvider.FindGallery(id);
                 return Ok(new GalleryViewModelWithId(gallery.Id));
             }
             catch (GalleryNotFoundException)
@@ -36,7 +36,7 @@ namespace Gallerio.Api.Endpoints
         [HttpGet]
         public async Task<IActionResult> GetGalleryList()
         {
-            var galleryList = await _galleryReadOnlyRepo.GetGalleryList();
+            var galleryList = await _galleryProvider.GetGalleryList();
             return Ok(galleryList.Select(d => new GalleryViewModelWithId(d.Id)));
         }
     }
