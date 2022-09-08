@@ -24,20 +24,19 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                return Ok(new GalleryViewModelWithId(gallery.Id));
+                return Ok(new GalleryViewModelWithId(gallery.Id, gallery.Name));
             }
             catch (GalleryNotFoundException)
             {
                 return NotFound();
             }
-            
         }
 
         [HttpGet]
         public async Task<IActionResult> GetGalleryList()
         {
             var galleryList = await _galleryProvider.GetGalleryList();
-            return Ok(galleryList.Select(d => new GalleryViewModelWithId(d.Id)));
+            return Ok(galleryList.Select(d => new GalleryViewModelWithId(d.Id, d.Name)));
         }
     }
 }

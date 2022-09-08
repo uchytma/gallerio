@@ -25,7 +25,7 @@ namespace Gallerio.Core.Tests
         }
 
         /// <summary>
-        /// Test that the gallery provider can find an existing gallery
+        /// Test that the gallery provider can find an existing gallery with valid data
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -33,6 +33,7 @@ namespace Gallerio.Core.Tests
         {
             var result = await _galleryProvider.FindGallery(_existingGalleryId);
             Assert.AreEqual(_existingGalleryId, result.Id);
+            Assert.AreEqual("Norsko", result.Name);
         }
 
         /// <summary>

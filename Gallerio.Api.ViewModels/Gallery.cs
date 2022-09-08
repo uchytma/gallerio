@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace Gallerio.Api.ViewModels
 {
     public record GalleryViewModel;
-    public record GalleryViewModelWithId(Guid id) : GalleryViewModel;
+    public record GalleryViewModelWithId(Guid Id, string Name) : GalleryViewModel;
 }
