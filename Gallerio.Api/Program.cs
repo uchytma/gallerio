@@ -13,6 +13,17 @@ namespace Gallerio.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddCors(policy =>
+            {
+                policy.AddPolicy("CorsLocalhostFe", builder => builder.WithOrigins("https://localhost:7176/")
+                     .SetIsOriginAllowed((host) => true)
+                     .AllowAnyMethod()
+                     .AllowAnyHeader()
+                     .AllowCredentials());
+            });
+
+
             builder.Services.AddAuthorization();
 
             builder.Services.AddEndpointsApiExplorer();
@@ -33,6 +44,8 @@ namespace Gallerio.Api
 
             builder.Services.AddControllers();
 
+         
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -41,6 +54,8 @@ namespace Gallerio.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("CorsLocalhostFe");
 
             app.UseRouting();
 

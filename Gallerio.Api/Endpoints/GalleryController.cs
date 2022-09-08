@@ -1,4 +1,4 @@
-﻿using Gallerio.Api.ViewModels;
+﻿using Gallerio.Api.Dtos;
 using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces;
@@ -22,13 +22,13 @@ namespace Gallerio.Api.Endpoints
 
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(typeof(GalleryViewModel), 200)]
+        [ProducesResponseType(typeof(GalleryDto), 200)]
         public async Task<IActionResult> FindGallery([FromRoute] Guid id)
         {
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                return Ok(new GalleryViewModel(gallery.Id, gallery.Name));
+                return Ok(new GalleryDto(gallery.Id, gallery.Name));
             }
             catch (GalleryNotFoundException)
             {
@@ -37,31 +37,31 @@ namespace Gallerio.Api.Endpoints
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<GalleryViewModel>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<GalleryDto>), 200)]
         public async Task<IActionResult> GetGalleryList()
         {
             var galleryList = await _galleryProvider.GetGalleryList();
-            return Ok(galleryList.Select(d => new GalleryViewModel(d.Id, d.Name)));
+            return Ok(galleryList.Select(d => new GalleryDto(d.Id, d.Name)));
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(GalleryViewModel), 200)]
-        public async Task<IActionResult> CreateGallery([FromBody] CreateGalleryViewModel model)
+        [ProducesResponseType(typeof(GalleryDto), 200)]
+        public async Task<IActionResult> CreateGallery([FromBody] CreateGalleryDto model)
         {
             var createdGallery = await _galleryUpdater.CreateGallery(model.Name);
-            return Ok(new GalleryViewModel(createdGallery.Id, createdGallery.Name));
+            return Ok(new GalleryDto(createdGallery.Id, createdGallery.Name));
         }
 
         [HttpPatch]
         [Route("{id}")]
-        [ProducesResponseType(typeof(GalleryViewModel), 200)]
-        public async Task<IActionResult> UpdateGallery([FromRoute] Guid id, [FromBody] UpdateGalleryViewModel model)
+        [ProducesResponseType(typeof(GalleryDto), 200)]
+        public async Task<IActionResult> UpdateGallery([FromRoute] Guid id, [FromBody] UpdateGalleryDto model)
         {
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
                 var updatedGallery = await _galleryUpdater.UpdateGallery(new Gallery(gallery.Id, model.Name ?? gallery.Name));
-                return Ok(new GalleryViewModel(updatedGallery.Id, updatedGallery.Name));
+                return Ok(new GalleryDto(updatedGallery.Id, updatedGallery.Name));
             }
             catch (GalleryNotFoundException)
             {

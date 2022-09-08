@@ -5,19 +5,21 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Core", "Gallerio.Core\Gallerio.Core.csproj", "{1DEABCDD-EB75-4750-B332-78D7BBD4B1FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gallerio.Infrastructure", "Gallerio.Infrastructure\Gallerio.Infrastructure.csproj", "{C69725A8-9DF8-4D2E-8395-A57B7528C97C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Infrastructure", "Gallerio.Infrastructure\Gallerio.Infrastructure.csproj", "{C69725A8-9DF8-4D2E-8395-A57B7528C97C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gallerio.Api", "Gallerio.Api\Gallerio.Api.csproj", "{9046DF61-DFE9-4C59-ADEF-5A0F7AC47A66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Api", "Gallerio.Api\Gallerio.Api.csproj", "{9046DF61-DFE9-4C59-ADEF-5A0F7AC47A66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{895DE7AD-1A70-41FA-AEAC-728D7C1B55FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gallerio.Core.Tests", "Gallerio.Core.Tests\Gallerio.Core.Tests.csproj", "{D40C67AD-524A-4470-88DC-C5BF2DDE6211}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Core.Tests", "Gallerio.Core.Tests\Gallerio.Core.Tests.csproj", "{D40C67AD-524A-4470-88DC-C5BF2DDE6211}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{75831036-1B31-492D-A8C5-75E54348276D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{0E8A07CE-F63D-4074-AD41-472F6B29CFD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gallerio.Api.ViewModels", "Gallerio.Api.ViewModels\Gallerio.Api.ViewModels.csproj", "{81C726AC-5B0E-4BFF-878A-68BF5AE0AD65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Api.Dtos", "Gallerio.Api.ViewModels\Gallerio.Api.Dtos.csproj", "{81C726AC-5B0E-4BFF-878A-68BF5AE0AD65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Web.Client", "Gallerio.Web\Gallerio.Web.Client.csproj", "{173A6446-F305-47D1-B3C1-56CE03E22482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{81C726AC-5B0E-4BFF-878A-68BF5AE0AD65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81C726AC-5B0E-4BFF-878A-68BF5AE0AD65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81C726AC-5B0E-4BFF-878A-68BF5AE0AD65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{173A6446-F305-47D1-B3C1-56CE03E22482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{173A6446-F305-47D1-B3C1-56CE03E22482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{173A6446-F305-47D1-B3C1-56CE03E22482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{173A6446-F305-47D1-B3C1-56CE03E22482}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{9046DF61-DFE9-4C59-ADEF-5A0F7AC47A66} = {895DE7AD-1A70-41FA-AEAC-728D7C1B55FE}
 		{D40C67AD-524A-4470-88DC-C5BF2DDE6211} = {895DE7AD-1A70-41FA-AEAC-728D7C1B55FE}
 		{81C726AC-5B0E-4BFF-878A-68BF5AE0AD65} = {75831036-1B31-492D-A8C5-75E54348276D}
+		{173A6446-F305-47D1-B3C1-56CE03E22482} = {0E8A07CE-F63D-4074-AD41-472F6B29CFD2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E834FE28-03A6-41C1-ABD1-D7229C1C6220}

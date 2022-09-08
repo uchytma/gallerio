@@ -1,0 +1,34 @@
+﻿@using Gallerio.Web.Client.Services.Breadcrumbs
+@inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        @foreach (var link in _links)
+        {
+            if (link.IsActive)
+            {
+                <li class="breadcrumb-item active" aria-current="page">@link.Title</li>
+            }
+            else
+            {
+                <li class="breadcrumb-item"><a href="@link.Address">@link.Title</a></li>
+            }
+        }
+    </ol>
+</nav>
+
+@code {
+    private List<BreadcrumbLink> _links { get; set; } = new List<BreadcrumbLink>();
+
+    protected override void OnInitialized()
+    {
+        _breadcrumbsProvider.OnChange += RefreshBreadcrumbsLinks;
+        RefreshBreadcrumbsLinks();
+    }
+
+    private void RefreshBreadcrumbsLinks()
+    {
+        _links = _breadcrumbsProvider.Links.ToList();
+        this.StateHasChanged();
+    }
+}

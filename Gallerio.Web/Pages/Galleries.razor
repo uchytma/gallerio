@@ -1,0 +1,45 @@
+﻿@page "/galleries"
+@using Gallerio.Api.Dtos
+@inject HttpClient Http
+@inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
+
+<PageTitle>Galerie</PageTitle>
+
+<h1>Galerie</h1>
+
+@if (galleries == null)
+{
+    <p><em>Načítám...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Název</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var gallery in galleries)
+            {
+                <tr>
+                    <td>@gallery.Id</td>
+                    <td>@gallery.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private GalleryDto[]? galleries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        galleries = await Http.GetFromJsonAsync<GalleryDto[]>("https://localhost:7173/api/Gallery");
+        _breadcrumbsProvider.Clear();
+        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/", "Home", false));
+        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("Galleries", "Galerie", true));
+    }
+}
