@@ -2,26 +2,25 @@ using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Infrastructure.Services.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
 
 namespace Gallerio.Core.Tests
 {
     [TestClass]
     public class GalleryProviderTest
     {
-        private Guid _existingGalleryId = new Guid("7858785c-e0a4-4a08-b112-0347754e478d");
-        private Guid _notFoundGalleryId = new Guid("1858785c-e0a4-4a08-b112-0347754e478d");
-        private Guid[] _allGalleriesId = new Guid[]
-        {
-            new Guid("7858785c-e0a4-4a08-b112-0347754e478d"),
-            new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"),
-        };
-
+        private Gallery? _existingGallery;
+        private Guid _nonExistingGalleryId = Guid.Empty;
+        private IEnumerable<Guid> _allGalleriesId = new Guid[0];
         private GalleryProvider _galleryProvider;
 
         public GalleryProviderTest()
         {
-            DummyGalleryReadonlyRepo repo = new DummyGalleryReadonlyRepo();
+            DummyGalleryRepo repo = new DummyGalleryRepo();
             _galleryProvider = new GalleryProvider(repo);
+            _allGalleriesId = repo.GetExistingGalleries().Select(d => d.Id);
+            _existingGallery = repo.GetExistingGalleries().First();
+            _nonExistingGalleryId = repo.GetNotExistingGalleryGuid();
         }
 
         /// <summary>
@@ -31,9 +30,11 @@ namespace Gallerio.Core.Tests
         [TestMethod]
         public async Task TestFindGallery()
         {
-            var result = await _galleryProvider.FindGallery(_existingGalleryId);
-            Assert.AreEqual(_existingGalleryId, result.Id);
-            Assert.AreEqual("Norsko", result.Name);
+            if (_existingGallery is null) throw new NullReferenceException(nameof(_existingGallery));
+
+            var result = await _galleryProvider.FindGallery(_existingGallery.Id);
+            Assert.AreEqual(_existingGallery.Id, result.Id);
+            Assert.AreEqual(_existingGallery.Name, result.Name);
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace Gallerio.Core.Tests
         [ExpectedException(typeof(GalleryNotFoundException))]
         public async Task TestFindGalleryNotFound()
         {
-            await _galleryProvider.FindGallery(_notFoundGalleryId);
+            await _galleryProvider.FindGallery(_nonExistingGalleryId);
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace Gallerio.Core.Tests
         {
             var galleries = await _galleryProvider.GetGalleryList();
             Assert.AreEqual(_allGalleriesId.Count(), galleries.Count);
-            
+
             foreach (var g in _allGalleriesId)
             {
                 Assert.IsTrue(galleries.Any(d => d.Id == g));

@@ -28,7 +28,7 @@ namespace Gallerio.Infrastructure.Db
 
         }
 
-        public async Task LoadDbIfNotLoaded()
+        internal async Task LoadDbIfNotLoaded()
         {
             if (!_dbLoaded)
             {
@@ -45,7 +45,7 @@ namespace Gallerio.Infrastructure.Db
             }
         }
 
-        public async Task ReloadDataFromJsonFile()
+        internal async Task ReloadDataFromJsonFile()
         {
             if (!File.Exists(_dbPath)) return;
 
@@ -59,10 +59,27 @@ namespace Gallerio.Infrastructure.Db
             _dbLoaded = true;
         }
 
-        public async Task<DbModel> GetModel() 
+        internal async Task<DbModel> GetModel() 
         {
             await LoadDbIfNotLoaded();
             return _dbModel;
+        }
+
+        internal async Task PersistChangesToFile()
+        {
+            await _dbLock.WaitAsync();
+            try
+            {
+                if (!File.Exists(_dbPath)) File.Create(_dbPath);
+                using (FileStream stream = new FileStream(_dbPath, FileMode.Truncate))
+                {
+                   await JsonSerializer.SerializeAsync<DbModel>(stream, _dbModel);
+                }
+            }
+            finally
+            {
+                _dbLock.Release();
+            }
         }
     }
 }

@@ -17,8 +17,13 @@ namespace Gallerio.Api
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
             builder.Services.AddSingleton<IGalleryProvider, GalleryProvider>();
+            builder.Services.AddSingleton<IGalleryUpdater, GalleryUpdater>();
+
             builder.Services.AddSingleton<IGalleryReadOnlyRepo, GalleryRepoJsonFile>();
+            builder.Services.AddSingleton<IGalleryUpdateRepo, GalleryRepoJsonFile>();
+
             builder.Services.AddSingleton<JsonFileDb>();
 
             builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection("Application"));

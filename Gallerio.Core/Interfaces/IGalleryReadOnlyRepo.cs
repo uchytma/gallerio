@@ -13,4 +13,10 @@ namespace Gallerio.Core.Interfaces
         Task<Gallery> FindGallery(Guid id);
         Task<IReadOnlyCollection<Gallery>> GetGalleryList();
     }
+
+    public interface IGalleryUpdateRepo
+    {
+        Task<Gallery> CreateGallery(string name);
+        Task<Gallery> UpdateGallery(Gallery gallery);
+    }
 }
