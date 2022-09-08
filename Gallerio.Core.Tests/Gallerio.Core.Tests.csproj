@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gallerio.Core\Gallerio.Core.csproj" />
+    <ProjectReference Include="..\Gallerio.Infrastructure\Gallerio.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
