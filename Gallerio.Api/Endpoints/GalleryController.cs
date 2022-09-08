@@ -22,6 +22,7 @@ namespace Gallerio.Api.Endpoints
 
         [HttpGet]
         [Route("{id}")]
+        [ProducesResponseType(typeof(GalleryViewModel), 200)]
         public async Task<IActionResult> FindGallery([FromRoute] Guid id)
         {
             try
@@ -36,6 +37,7 @@ namespace Gallerio.Api.Endpoints
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<GalleryViewModel>), 200)]
         public async Task<IActionResult> GetGalleryList()
         {
             var galleryList = await _galleryProvider.GetGalleryList();
@@ -43,6 +45,7 @@ namespace Gallerio.Api.Endpoints
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(GalleryViewModel), 200)]
         public async Task<IActionResult> CreateGallery([FromBody] CreateGalleryViewModel model)
         {
             var createdGallery = await _galleryUpdater.CreateGallery(model.Name);
@@ -51,6 +54,7 @@ namespace Gallerio.Api.Endpoints
 
         [HttpPatch]
         [Route("{id}")]
+        [ProducesResponseType(typeof(GalleryViewModel), 200)]
         public async Task<IActionResult> UpdateGallery([FromRoute] Guid id, [FromBody] UpdateGalleryViewModel model)
         {
             try

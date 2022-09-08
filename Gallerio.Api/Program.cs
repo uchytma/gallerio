@@ -16,7 +16,10 @@ namespace Gallerio.Api
             builder.Services.AddAuthorization();
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SupportNonNullableReferenceTypes();
+            });
 
             builder.Services.AddSingleton<IGalleryProvider, GalleryProvider>();
             builder.Services.AddSingleton<IGalleryUpdater, GalleryUpdater>();
