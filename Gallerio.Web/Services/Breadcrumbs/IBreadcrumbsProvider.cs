@@ -7,6 +7,7 @@
         event Action? OnChange;
 
         void Pop();
+
         void Push(BreadcrumbLink link);
 
         void Clear();

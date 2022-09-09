@@ -2,6 +2,7 @@
 @using Gallerio.Api.Dtos
 @inject HttpClient Http
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
+@inject NavigationManager _navManager
 
 <PageTitle>Galerie</PageTitle>
 
@@ -13,27 +14,30 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Název</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var gallery in galleries)
-            {
-                <tr>
-                    <td>@gallery.Id</td>
-                    <td>@gallery.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
+        @foreach (var gallery in galleries)
+        {
+
+            <div class="col">
+                <div class="card" @onclick="() => GoToGallery(gallery.Id)">
+                    <img src="/images/test-image.jpg" class="card-img-top gallery-card" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@gallery.Name</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 }
 
 @code {
     private GalleryDto[]? galleries;
+
+    private void GoToGallery(Guid id)
+    {
+        _navManager.NavigateTo($"/galleries/{id}");
+    }
 
     protected override async Task OnInitializedAsync()
     {
