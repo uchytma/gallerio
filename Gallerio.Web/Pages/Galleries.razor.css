@@ -1,4 +1,22 @@
-﻿.gallery-card {
-    max-height: 200px;
-    object-fit: cover;
+﻿
+.gallery-card {
+    cursor: pointer;
 }
+
+    .gallery-card:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+
+
+    .gallery-card > img {
+        max-height: 200px;
+        object-fit: cover;
+    }
+
+    .gallery-card > .card-footer {
+        font-size: 12px;
+    }
+
+    .gallery-card .oi:hover {
+        color: black;
+    }
