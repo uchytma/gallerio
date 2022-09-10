@@ -3,9 +3,13 @@
 
 <h1>Vítejte ve správě galerií a fotografií - Gallerio.</h1>
 
+<a class="btn btn-primary" href="/Galleries">Přejít na galerie</a>
+
 @code {
    protected override async Task OnInitializedAsync()
     {
         _breadcrumbsProvider.Clear();
+
+        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/", "Home", false));
     }
 }

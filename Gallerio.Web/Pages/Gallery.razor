@@ -7,34 +7,65 @@
 @inject NavigationManager _navManager
 @implements IDisposable
 
-@if (gallery == null)
+@if (_gallery == null)
 {
     <p><em>Načítám...</em></p>
 }
 else
 {
     <div id="grid-container">
-        <div id="grid-container-list">a</div>
+        <div id="grid-container-list">
+            @if (_multimedia == null)
+            {
+                <p><em>Načítám...</em></p>
+            }
+            else
+            {
+                <div>
+                    @foreach (var mi in _multimedia!)
+                    {
+                        <div class="card m-2">
+                            <div class="card-body p-2">
+                                <p class="card-title">@mi.Name</p>
+                                <p class="card-subtitle text-muted">@mi.Id</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
         <div id="grid-container-image">b</div>
         <div id="grid-container-meta">c</div>
     </div>
 }
 
 @code {
-    private GalleryDto? gallery;
+    private GalleryDto? _gallery;
+
+    private IEnumerable<MultimediaItemDto>? _multimedia;
 
     [Parameter]
-    public string GalleryId { get; set; }
+    public string? GalleryId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        gallery = await Http.GetFromJsonAsync<GalleryDto>($"https://localhost:7173/api/Gallery/{GalleryId}");
+        var getGalleryRq = Http.GetFromJsonAsync<GalleryDto>($"https://localhost:7173/api/gallery/{GalleryId}");
+        var getMultimediaRq = Http.GetFromJsonAsync<MultimediaItemDto[]>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia");
+
+        _gallery = await getGalleryRq;
+
         _breadcrumbsProvider.Clear();
         _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/", "Home", true));
         _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/Galleries", "Galerie", true));
-        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink($"/Galleries/{gallery.Id}", gallery.Name, false));
+        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink($"/Galleries/{_gallery!.Id}", _gallery!.Name, false));
 
         _layoutConfigurationService.NoPadding = true;
+
+        StateHasChanged();
+
+        _multimedia = await getMultimediaRq;
+
+     
     }
 
     public void Dispose()

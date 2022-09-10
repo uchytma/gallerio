@@ -1,6 +1,6 @@
 ﻿#grid-container {
     display: grid;
-    grid-template-columns: 200px auto;
+    grid-template-columns: 300px auto;
     grid-template-rows: auto 200px;
     grid-template-areas:
         "a b"
@@ -9,8 +9,8 @@
 }
 
 #grid-container-list {
-    background-color: blue;
     grid-area: a;
+    overflow-y: scroll;
 }
 
 #grid-container-image {
@@ -21,4 +21,16 @@
 #grid-container-meta {
     background-color: yellow;
     grid-area: c;
+}
+
+#grid-container-list .card-subtitle {
+    font-size: 12px;
+}
+
+#grid-container-list .card {
+    cursor: pointer; 
+}
+
+#grid-container-list .card:hover {
+    background-color: rgba(0, 0, 0, 0.05);
 }
