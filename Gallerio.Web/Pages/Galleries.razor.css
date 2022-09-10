@@ -2,8 +2,11 @@
 .gallery-card {
     cursor: pointer;
     overflow: hidden;
-
 }
+
+    .gallery-card a {
+        text-decoration: none;
+    }
 
     .gallery-card:hover {
         background-color: rgba(0, 0, 0, 0.03);
@@ -18,7 +21,6 @@
 
     .gallery-card:hover > img {
         transform: scale(105%);
-        
     }
 
 

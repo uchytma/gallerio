@@ -4,10 +4,6 @@
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
 @inject NavigationManager _navManager
 
-<PageTitle>Galerie</PageTitle>
-
-<h1>Galerie</h1>
-
 @if (galleries == null)
 {
     <p><em>Načítám...</em></p>
@@ -23,7 +19,7 @@ else
                     <img src="/images/test-image.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h3 class="card-title">
-                            <a href="/galleries/@gallery.Id">
+                            <a href="/Galleries/@gallery.Id">
                                 @gallery.Name
                             </a>    
                             </h3>
@@ -48,14 +44,14 @@ else
 
     private void GoToGallery(Guid id)
     {
-        _navManager.NavigateTo($"/galleries/{id}");
+        _navManager.NavigateTo($"/Galleries/{id}");
     }
 
     protected override async Task OnInitializedAsync()
     {
         galleries = await Http.GetFromJsonAsync<GalleryDto[]>("https://localhost:7173/api/Gallery");
         _breadcrumbsProvider.Clear();
-        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/", "Home", false));
-        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("Galleries", "Galerie", true));
+        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/", "Home", true));
+        _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/Galleries", "Galerie", false));
     }
 }

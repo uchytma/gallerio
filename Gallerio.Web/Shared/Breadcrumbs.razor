@@ -7,11 +7,11 @@
         {
             if (link.IsActive)
             {
-                <li class="breadcrumb-item active" aria-current="page">@link.Title</li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="@link.Address">@link.Title</a></li>
             }
             else
             {
-                <li class="breadcrumb-item"><a href="@link.Address">@link.Title</a></li>
+                <li class="breadcrumb-item">@link.Title</li>
             }
         }
     </ol>
