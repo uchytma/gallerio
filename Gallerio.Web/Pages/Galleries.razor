@@ -19,7 +19,7 @@ else
         {
 
             <div class="col">
-                <div class="card gallery-card" @onclick="() => GoToGallery(gallery.Id)">
+                <div class="card gallery-card h-100" @onclick="() => GoToGallery(gallery.Id)">
                     <img src="/images/test-image.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h3 class="card-title">
@@ -27,11 +27,11 @@ else
                                 @gallery.Name
                             </a>    
                             </h3>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text">@gallery.Description</p>
                     </div>
                     <div class="card-footer text-muted d-flex">
                         <div class="flex-grow-1">
-                           1520 fotografií • 1. ledna 2022 - 25. ledna 2022
+                           @gallery.PhotosTotalCount fotografií • @gallery.Date
                        </div>
                        <div>
                            <span class="oi oi-pencil" aria-hidden="true"></span>

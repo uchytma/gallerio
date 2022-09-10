@@ -13,8 +13,8 @@ namespace Gallerio.Infrastructure.Services.Repositories
     {
         private static List<Gallery> _galleries = new List<Gallery>
         {
-            new Gallery(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), "Norsko"),
-            new Gallery(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), "Berlín"),
+            new Gallery(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), "Norsko", "description Norsko", "2022", 10),
+            new Gallery(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), "Berlín", "description Berlín", "2021", 1000),
         };
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
 
         public async Task<Gallery> CreateGallery(string name)
         {
-            var g = new Gallery(Guid.NewGuid(), name);
+            var g = new Gallery(Guid.NewGuid(), name, string.Empty, string.Empty, 0);
             _galleries.Add(g);
             return g;
         }

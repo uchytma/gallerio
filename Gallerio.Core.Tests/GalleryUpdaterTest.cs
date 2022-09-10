@@ -36,6 +36,9 @@ namespace Gallerio.Core.Tests
             var result = await _galleryUpdater.CreateGallery(randomName);
 
             Assert.AreEqual(randomName, result.Name);
+            Assert.AreEqual(string.Empty, result.Description);
+            Assert.AreEqual(string.Empty, result.Date);
+            Assert.AreEqual(0, result.TotalPhotosCount);
             Assert.IsTrue(result.Id != Guid.Empty);
             Assert.IsTrue(_repo.GetExistingGalleries().Any(d => d.Id == result.Id));
         }
@@ -50,10 +53,17 @@ namespace Gallerio.Core.Tests
             if (_existingGallery is null) throw new NullReferenceException(nameof(_existingGallery));
 
             string randomName = $"name_{Guid.NewGuid()}";
-            var result = await _galleryUpdater.UpdateGallery(new Gallery(_existingGallery.Id, randomName));
+            string randomDescription = $"description_{Guid.NewGuid()}";
+            string randomDate = $"date_{Guid.NewGuid()}";
+            int photosCount = 0;
+
+            var result = await _galleryUpdater.UpdateGallery(new Gallery(_existingGallery.Id, randomName, randomDescription, randomDate, photosCount));
 
             Assert.AreEqual(_existingGallery.Id, result.Id);
             Assert.AreEqual(randomName, result.Name);
+            Assert.AreEqual(randomDescription, result.Description);
+            Assert.AreEqual(randomDate, result.Date);
+            Assert.AreEqual(photosCount, result.TotalPhotosCount);
 
             var galleriesFromRepo = _repo.GetExistingGalleries().Where(d => d.Id == result.Id).ToList();
             Assert.AreEqual(1, galleriesFromRepo.Count);
@@ -62,6 +72,9 @@ namespace Gallerio.Core.Tests
 
             Assert.AreEqual(_existingGallery.Id, galleryFromRepo.Id);
             Assert.AreEqual(randomName, galleryFromRepo.Name);
+            Assert.AreEqual(randomDescription, galleryFromRepo.Description);
+            Assert.AreEqual(randomDate, galleryFromRepo.Date);
+            Assert.AreEqual(photosCount, galleryFromRepo.TotalPhotosCount);
         }
 
         /// <summary>
@@ -75,7 +88,7 @@ namespace Gallerio.Core.Tests
             if (_existingGallery is null) throw new NullReferenceException(nameof(_existingGallery));
 
             string randomName = $"name_{Guid.NewGuid()}";
-            var result = await _galleryUpdater.UpdateGallery(new Gallery(_nonExistingGalleryId, randomName));
+            var result = await _galleryUpdater.UpdateGallery(new Gallery(_nonExistingGalleryId, randomName, string.Empty, string.Empty, 0));
         }
     }
 }

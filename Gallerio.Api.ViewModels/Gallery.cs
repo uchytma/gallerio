@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gallerio.Api.Dtos
 {
-    public record GalleryDto(Guid Id, string Name);
+    public record GalleryDto(Guid Id, string Name, string Description, string Date, int PhotosTotalCount);
     public record CreateGalleryDto(string Name);
-    public record UpdateGalleryDto(string? Name);
+    public record UpdateGalleryDto(string? Name, string? Description, string? Date);
 }

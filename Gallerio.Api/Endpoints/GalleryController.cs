@@ -1,4 +1,5 @@
 ﻿using Gallerio.Api.Dtos;
+using Gallerio.Api.Extensions;
 using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces;
@@ -28,7 +29,7 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                return Ok(new GalleryDto(gallery.Id, gallery.Name));
+                return Ok(gallery.ToDto());
             }
             catch (GalleryNotFoundException)
             {
@@ -41,7 +42,7 @@ namespace Gallerio.Api.Endpoints
         public async Task<IActionResult> GetGalleryList()
         {
             var galleryList = await _galleryProvider.GetGalleryList();
-            return Ok(galleryList.Select(d => new GalleryDto(d.Id, d.Name)));
+            return Ok(galleryList.Select(d => d.ToDto()));
         }
 
         [HttpPost]
@@ -49,7 +50,7 @@ namespace Gallerio.Api.Endpoints
         public async Task<IActionResult> CreateGallery([FromBody] CreateGalleryDto model)
         {
             var createdGallery = await _galleryUpdater.CreateGallery(model.Name);
-            return Ok(new GalleryDto(createdGallery.Id, createdGallery.Name));
+            return Ok(createdGallery.ToDto());
         }
 
         [HttpPatch]
@@ -60,14 +61,18 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var updatedGallery = await _galleryUpdater.UpdateGallery(new Gallery(gallery.Id, model.Name ?? gallery.Name));
-                return Ok(new GalleryDto(updatedGallery.Id, updatedGallery.Name));
+
+                gallery.Name = model.Name ?? gallery.Name;
+                gallery.Description = model.Description ?? gallery.Description;
+                gallery.Date = model.Date ?? gallery.Date;
+
+                var updatedGallery = await _galleryUpdater.UpdateGallery(gallery);
+                return Ok(updatedGallery.ToDto());
             }
             catch (GalleryNotFoundException)
             {
                 return NotFound();
             }
-           
         }
     }
 }

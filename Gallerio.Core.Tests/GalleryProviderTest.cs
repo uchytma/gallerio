@@ -35,6 +35,9 @@ namespace Gallerio.Core.Tests
             var result = await _galleryProvider.FindGallery(_existingGallery.Id);
             Assert.AreEqual(_existingGallery.Id, result.Id);
             Assert.AreEqual(_existingGallery.Name, result.Name);
+            Assert.AreEqual(_existingGallery.Description, result.Description);
+            Assert.AreEqual(_existingGallery.Date, result.Date);
+            Assert.AreEqual(_existingGallery.TotalPhotosCount, result.TotalPhotosCount);
         }
 
         /// <summary>
