@@ -1,8 +1,11 @@
 ﻿@page "/galleries/{GalleryId}"
 @using Gallerio.Api.Dtos
+@using Gallerio.Web.Client.Services.LayoutConfiguration
 @inject HttpClient Http
+@inject ILayoutConfigurationService _layoutConfigurationService
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
 @inject NavigationManager _navManager
+@implements IDisposable
 
 @if (gallery == null)
 {
@@ -10,7 +13,11 @@
 }
 else
 {
-    
+    <div id="grid-container">
+        <div id="grid-container-list">a</div>
+        <div id="grid-container-image">b</div>
+        <div id="grid-container-meta">c</div>
+    </div>
 }
 
 @code {
@@ -26,5 +33,12 @@ else
         _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/", "Home", true));
         _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/Galleries", "Galerie", true));
         _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink($"/Galleries/{gallery.Id}", gallery.Name, false));
+
+        _layoutConfigurationService.NoPadding = true;
+    }
+
+    public void Dispose()
+    {
+        _layoutConfigurationService.NoPadding = false;
     }
 }

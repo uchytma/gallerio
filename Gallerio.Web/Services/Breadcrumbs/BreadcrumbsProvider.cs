@@ -24,11 +24,11 @@
             NotifyStateChanged();
         }
 
-        public event Action? OnChange;
+        public event Action? StateChanged;
 
         private void NotifyStateChanged()
         {
-            OnChange?.Invoke();
+            StateChanged?.Invoke();
         }
     }
 }

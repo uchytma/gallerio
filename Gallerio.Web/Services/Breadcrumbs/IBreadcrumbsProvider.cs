@@ -4,7 +4,7 @@
     {
         IEnumerable<BreadcrumbLink> Links { get; }
 
-        event Action? OnChange;
+        event Action? StateChanged;
 
         void Pop();
 

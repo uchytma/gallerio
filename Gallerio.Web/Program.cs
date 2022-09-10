@@ -1,5 +1,6 @@
 using Gallerio.Web.Client;
 using Gallerio.Web.Client.Services.Breadcrumbs;
+using Gallerio.Web.Client.Services.LayoutConfiguration;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -15,6 +16,7 @@ namespace Gallerio.Web.Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddSingleton<IBreadcrumbsProvider, BreadcrumbsProvider>();
+            builder.Services.AddSingleton<ILayoutConfigurationService, LayoutConfigurationService>();
 
             await builder.Build().RunAsync();
         }

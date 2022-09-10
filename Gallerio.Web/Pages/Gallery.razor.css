@@ -1,0 +1,24 @@
+﻿#grid-container {
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-template-rows: auto 200px;
+    grid-template-areas:
+        "a b"
+        "a c";
+    height: calc(100vh - 3.5rem);
+}
+
+#grid-container-list {
+    background-color: blue;
+    grid-area: a;
+}
+
+#grid-container-image {
+    background-color: green;
+    grid-area: b;
+}
+
+#grid-container-meta {
+    background-color: yellow;
+    grid-area: c;
+}

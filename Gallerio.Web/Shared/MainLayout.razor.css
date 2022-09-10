@@ -78,3 +78,8 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+
+
+article.no-padding {
+    padding: 0px !important;
+}

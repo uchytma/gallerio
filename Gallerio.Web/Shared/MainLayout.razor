@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using Gallerio.Web.Client.Services.LayoutConfiguration
+@inherits LayoutComponentBase
+@inject ILayoutConfigurationService _layoutConfigurationService
+@implements IDisposable
 
 <PageTitle>Gallerio</PageTitle>
 
@@ -12,8 +15,29 @@
             <Breadcrumbs></Breadcrumbs>
         </div>
 
-        <article class="content px-4">
+        <article class="content px-4 @(NoPadding ? "no-padding" : string.Empty)">
             @Body
         </article>
     </main>
 </div>
+
+
+@code {
+    public bool NoPadding { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _layoutConfigurationService.StateChanged += StateChanged;
+    }
+
+    public void StateChanged()
+    {
+        NoPadding = _layoutConfigurationService.NoPadding;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        _layoutConfigurationService.StateChanged -= StateChanged;
+    }
+}

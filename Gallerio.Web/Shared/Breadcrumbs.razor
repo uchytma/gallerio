@@ -1,5 +1,6 @@
 ﻿@using Gallerio.Web.Client.Services.Breadcrumbs
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
+@implements IDisposable
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb mb-0">
@@ -22,13 +23,17 @@
 
     protected override void OnInitialized()
     {
-        _breadcrumbsProvider.OnChange += RefreshBreadcrumbsLinks;
-        RefreshBreadcrumbsLinks();
+        _breadcrumbsProvider.StateChanged += RefreshBreadcrumbsLinks;
     }
 
     private void RefreshBreadcrumbsLinks()
     {
         _links = _breadcrumbsProvider.Links.ToList();
         this.StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        _breadcrumbsProvider.StateChanged -= RefreshBreadcrumbsLinks;
     }
 }
