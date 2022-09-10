@@ -1,5 +1,6 @@
 using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Services;
+using Gallerio.Core.Interfaces;
 using Gallerio.Infrastructure.Services.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
@@ -16,7 +17,8 @@ namespace Gallerio.Core.Tests
 
         public GalleryProviderTest()
         {
-            DummyGalleryRepo repo = new DummyGalleryRepo();
+            IGalleryFactory f = new GalleryFactory(new DummyMultimediaItemProvider());
+            DummyGalleryRepo repo = new DummyGalleryRepo(f);
             _galleryProvider = new GalleryProvider(repo);
             _allGalleriesId = repo.GetExistingGalleries().Select(d => d.Id);
             _existingGallery = repo.GetExistingGalleries().First();

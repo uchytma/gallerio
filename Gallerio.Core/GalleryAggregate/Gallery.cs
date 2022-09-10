@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gallerio.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,16 @@ namespace Gallerio.Core.GalleryAggregate
 {
     public class Gallery
     {
-        public Gallery(Guid id, string name, string description, string date, int totalPhotosCount)
+        private readonly IMultimediaItemProvider _muip;
+
+        internal Gallery(Guid id, string name, string description, string date, int totalPhotosCount, IMultimediaItemProvider muip)
         {
             Id = id;
             Name = name;
             Description = description;
             Date = date;
             TotalPhotosCount = totalPhotosCount;
+            _muip = muip;
         }
 
         public Guid Id { get; }
@@ -26,5 +30,10 @@ namespace Gallerio.Core.GalleryAggregate
         public string Date { get; set; }
 
         public int TotalPhotosCount { get; }
+
+        public async Task<IEnumerable<MultimediaItem>> LoadMultimediaItems()
+        {
+            return await _muip.GetMultimediaItems(this.Id);
+        }
     }
 }

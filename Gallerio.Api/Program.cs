@@ -23,7 +23,6 @@ namespace Gallerio.Api
                      .AllowCredentials());
             });
 
-
             builder.Services.AddAuthorization();
 
             builder.Services.AddEndpointsApiExplorer();
@@ -34,17 +33,16 @@ namespace Gallerio.Api
 
             builder.Services.AddSingleton<IGalleryProvider, GalleryProvider>();
             builder.Services.AddSingleton<IGalleryUpdater, GalleryUpdater>();
-
             builder.Services.AddSingleton<IGalleryReadOnlyRepo, GalleryRepoJsonFile>();
             builder.Services.AddSingleton<IGalleryUpdateRepo, GalleryRepoJsonFile>();
-
+            builder.Services.AddSingleton<IMultimediaItemProvider, MultimediaItemProvider>();
+            builder.Services.AddSingleton<IGalleryFactory, GalleryFactory>();
             builder.Services.AddSingleton<JsonFileDb>();
 
             builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection("Application"));
 
             builder.Services.AddControllers();
 
-         
 
             var app = builder.Build();
 

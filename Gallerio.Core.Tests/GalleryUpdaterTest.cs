@@ -15,10 +15,12 @@ namespace Gallerio.Core.Tests
         private IEnumerable<Guid> _allGalleriesId = new Guid[0];
         private GalleryUpdater _galleryUpdater;
         private DummyGalleryRepo _repo;
+        private IGalleryFactory _galleryFactory;
 
         public GalleryUpdaterTest()
         {
-            _repo = new DummyGalleryRepo();
+            _galleryFactory = new GalleryFactory(new DummyMultimediaItemProvider());
+            _repo = new DummyGalleryRepo(_galleryFactory);
             _galleryUpdater = new GalleryUpdater(_repo);
             _allGalleriesId = _repo.GetExistingGalleries().Select(d => d.Id);
             _existingGallery = _repo.GetExistingGalleries().First();
@@ -57,7 +59,7 @@ namespace Gallerio.Core.Tests
             string randomDate = $"date_{Guid.NewGuid()}";
             int photosCount = 0;
 
-            var result = await _galleryUpdater.UpdateGallery(new Gallery(_existingGallery.Id, randomName, randomDescription, randomDate, photosCount));
+            var result = await _galleryUpdater.UpdateGallery(_galleryFactory.Create(_existingGallery.Id, randomName, randomDescription, randomDate, photosCount));
 
             Assert.AreEqual(_existingGallery.Id, result.Id);
             Assert.AreEqual(randomName, result.Name);
@@ -88,7 +90,7 @@ namespace Gallerio.Core.Tests
             if (_existingGallery is null) throw new NullReferenceException(nameof(_existingGallery));
 
             string randomName = $"name_{Guid.NewGuid()}";
-            var result = await _galleryUpdater.UpdateGallery(new Gallery(_nonExistingGalleryId, randomName, string.Empty, string.Empty, 0));
+            var result = await _galleryUpdater.UpdateGallery(_galleryFactory.Create(_nonExistingGalleryId, randomName, string.Empty, string.Empty, 0));
         }
     }
 }

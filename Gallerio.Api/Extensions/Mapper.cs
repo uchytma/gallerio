@@ -9,5 +9,11 @@ namespace Gallerio.Api.Extensions
         {
             return new GalleryDto(model.Id, model.Name, model.Description, model.Date, model.TotalPhotosCount);
         }
+
+        public static MultimediaItemDto ToDto(this MultimediaItem model)
+        {
+            return new MultimediaItemDto(model.Id, model.Name);
+        }
+
     }
 }

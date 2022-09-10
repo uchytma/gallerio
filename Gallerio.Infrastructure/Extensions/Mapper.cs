@@ -1,4 +1,5 @@
 ﻿using Gallerio.Core.GalleryAggregate;
+using Gallerio.Core.Interfaces;
 using Gallerio.Infrastructure.Db;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace Gallerio.Infrastructure.Extensions
 {
     internal static class Mapper
     {
-        internal static Gallery ToDomainModel(this GalleryModel model)
+        internal static Gallery ToDomainModel(this GalleryModel model, IGalleryFactory galleryFactory)
         {
-            return new Gallery(model.Id, model.Name, model.Description, model.Date, model.PhotosTotalCount);
+            return galleryFactory.Create(model.Id, model.Name, model.Description, model.Date, model.PhotosTotalCount);
         }
     }
 }

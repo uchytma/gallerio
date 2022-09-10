@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gallerio.Api.Endpoints
 {
-    [Route("api/[controller]")]
+    [Route("api/gallery")]
     [ApiController]
     public class GalleryController : ControllerBase
     {

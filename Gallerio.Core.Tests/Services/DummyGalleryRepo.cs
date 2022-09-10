@@ -9,13 +9,21 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace Gallerio.Infrastructure.Services.Repositories
 {
+
+
     public class DummyGalleryRepo : IGalleryReadOnlyRepo, IGalleryUpdateRepo
     {
-        private static List<Gallery> _galleries = new List<Gallery>
+
+        private List<Gallery> _galleries = new List<Gallery>();
+
+        private readonly IGalleryFactory _galleryFactory;
+
+        public DummyGalleryRepo(IGalleryFactory factory)
         {
-            new Gallery(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), "Norsko", "description Norsko", "2022", 10),
-            new Gallery(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), "Berlín", "description Berlín", "2021", 1000),
-        };
+            _galleryFactory = factory;
+            _galleries.Add(_galleryFactory.Create(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), "Norsko", "description Norsko", "2022", 10));
+            _galleries.Add(_galleryFactory.Create(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), "Berlín", "description Berlín", "2021", 1000));
+        }
 
         /// <summary>
         /// For testing purposes
@@ -29,7 +37,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
 
         public async Task<Gallery> CreateGallery(string name)
         {
-            var g = new Gallery(Guid.NewGuid(), name, string.Empty, string.Empty, 0);
+            var g = _galleryFactory.Create(Guid.NewGuid(), name, string.Empty, string.Empty, 0);
             _galleries.Add(g);
             return g;
         }
