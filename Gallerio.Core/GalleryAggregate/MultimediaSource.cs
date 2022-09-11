@@ -8,14 +8,14 @@ namespace Gallerio.Core.GalleryAggregate
 {
     public class MultimediaSource
     {
-        public MultimediaSource(Guid id, string sourceConfigurationFilePath)
+        public MultimediaSource(Guid id, string sourceDir)
         {
             Id = id;
-            SourceConfigurationFilePath = sourceConfigurationFilePath;
+            SourceDir = sourceDir;
         }
 
         public Guid Id { get; }
 
-        public string SourceConfigurationFilePath { get; }
+        public string SourceDir { get; }
     }
 }

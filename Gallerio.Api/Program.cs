@@ -1,7 +1,8 @@
 using Gallerio.Api.Options;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces;
-using Gallerio.Infrastructure.Db;
+using Gallerio.Infrastructure.Services.MainJsonDb;
+using Gallerio.Infrastructure.Services.MultimediaItemsJsonFileDb;
 using Gallerio.Infrastructure.Services.Repositories;
 
 namespace Gallerio.Api
@@ -35,11 +36,15 @@ namespace Gallerio.Api
             builder.Services.AddSingleton<IGalleryUpdater, GalleryUpdater>();
             builder.Services.AddSingleton<IGalleryReadOnlyRepo, GalleryRepoJsonFile>();
             builder.Services.AddSingleton<IGalleryUpdateRepo, GalleryRepoJsonFile>();
-            builder.Services.AddSingleton<IMultimediaItemProvider, MultimediaItemProvider>();
             builder.Services.AddSingleton<IGalleryFactory, GalleryFactory>();
-            builder.Services.AddSingleton<IGalleryIndexer, GalleryIndexer>();
+            builder.Services.AddSingleton<IGalleryIndexerFactory, GalleryIndexerFactory>();
 
-            
+            builder.Services.AddSingleton<IMultimediaItemProvider, MultimediaItemProvider>();
+            builder.Services.AddSingleton<IMultimediaItemUpdater, MultimediaItemUpdater>();
+            builder.Services.AddSingleton<IMultimediaItemsReadonlyRepo, MultimediaItemsRepoJsonFile>();
+            builder.Services.AddSingleton<IMultimediaItemsUpdateRepo, MultimediaItemsRepoJsonFile>();
+           
+            builder.Services.AddSingleton<JsonFileMultimediaItemsFactory>();
             builder.Services.AddSingleton<JsonFileDb>();
 
             builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection("Application"));

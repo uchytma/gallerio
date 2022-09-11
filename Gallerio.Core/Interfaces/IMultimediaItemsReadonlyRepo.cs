@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Gallerio.Core.Interfaces
 {
-    public interface IMultimediaItemProvider
+    public interface IMultimediaItemsReadonlyRepo
     {
-        Task<IEnumerable<MultimediaItem>> GetMultimediaItems(Gallery id);
-        Task<IEnumerable<MultimediaItem>> GetMultimediaItems(MultimediaSource id);
+        Task<IReadOnlyCollection<MultimediaItem>> GetMultimediaItems(MultimediaSource source);
     }
 }

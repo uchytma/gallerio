@@ -1,6 +1,6 @@
 ﻿using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.Interfaces;
-using Gallerio.Infrastructure.Db;
+using Gallerio.Infrastructure.Services.MainJsonDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace Gallerio.Infrastructure.Extensions
                 model.Description, 
                 model.Date, 
                 model.PhotosTotalCount, 
-                model.MultimediaSources?.Select(d => new Core.GalleryAggregate.MultimediaSource(d.Id, d.SourceConfigurationFilePath)) 
+                model.MultimediaSources?.Select(d => new Core.GalleryAggregate.MultimediaSource(d.Id, d.SourceDir)) 
                     ?? Enumerable.Empty<Core.GalleryAggregate.MultimediaSource>());
         }
     }

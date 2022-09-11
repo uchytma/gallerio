@@ -1,7 +1,7 @@
 ﻿using Gallerio.Core.Interfaces;
 using Gallerio.Core.GalleryAggregate;
-using Gallerio.Infrastructure.Db;
 using Gallerio.Infrastructure.Extensions;
+using Gallerio.Infrastructure.Services.MainJsonDb;
 
 namespace Gallerio.Infrastructure.Services.Repositories
 {
@@ -19,7 +19,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
         public async Task<Gallery> CreateGallery(string name)
         {
             Guid id = Guid.NewGuid();
-            (await _db.GetModel()).Galleries.Add(new GalleryModel(id, name, string.Empty, string.Empty, 0, new List<Db.MultimediaSource>()));
+            (await _db.GetModel()).Galleries.Add(new GalleryModel(id, name, string.Empty, string.Empty, 0, new List<MainJsonDb.MultimediaSource>()));
             await _db.PersistChangesToFile();
             return await FindGallery(id);
         }
@@ -45,7 +45,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
                 gallery.Description,
                 gallery.Date, 
                 gallery.TotalPhotosCount,
-                gallery.GetMultimediaSources.Select(d => new Db.MultimediaSource(d.Id, d.SourceConfigurationFilePath)).ToList());
+                gallery.GetMultimediaSources.Select(d => new MainJsonDb.MultimediaSource(d.Id, d.SourceDir)).ToList());
             galleries.Add(model);
             await _db.PersistChangesToFile();
             return await FindGallery(gallery.Id);

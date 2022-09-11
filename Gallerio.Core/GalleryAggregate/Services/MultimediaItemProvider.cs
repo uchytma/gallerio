@@ -9,24 +9,27 @@ namespace Gallerio.Core.GalleryAggregate.Services
 {
     public class MultimediaItemProvider : IMultimediaItemProvider
     {
-        public MultimediaItemProvider()
+        private readonly IMultimediaItemsReadonlyRepo _readonlyRepo;
+
+
+        public MultimediaItemProvider(IMultimediaItemsReadonlyRepo repo)
         {
+            _readonlyRepo = repo;
         }
 
-        public async Task<IEnumerable<MultimediaItem>> GetMultimediaItems(Guid id)
+        public async Task<IEnumerable<MultimediaItem>> GetMultimediaItems(Gallery gallery)
         {
-            var l = new List<MultimediaItem>()
+            List<MultimediaItem> items = new List<MultimediaItem>();
+            foreach (var source in gallery.GetMultimediaSources)
             {
-                new MultimediaItem(new Guid("d1f91baf-a935-4bf5-93c1-c2034a1690d4"), "test1.jpg"),
-                new MultimediaItem(new Guid("a1f91baf-a935-4bf5-93c1-c2034a1690d2"), "test2.jpg"),
-            };
-
-            for (int i = 1; i <= 2000; i++)
-            {
-                l.Add(new MultimediaItem(Guid.NewGuid(), $"test{i}.jpg"));
+                items.AddRange(await GetMultimediaItems(source));
             }
+            return items;
+        }
 
-            return l;
+        public async Task<IEnumerable<MultimediaItem>> GetMultimediaItems(MultimediaSource multimediaSource)
+        {
+            return (await _readonlyRepo.GetMultimediaItems(multimediaSource)).AsEnumerable();
         }
     }
 }

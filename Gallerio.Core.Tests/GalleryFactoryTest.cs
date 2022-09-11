@@ -1,6 +1,7 @@
 ﻿using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces;
+using Gallerio.Core.Tests.Services;
 using Gallerio.Infrastructure.Services.Repositories;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,14 @@ namespace Gallerio.Core.Tests
     public class GalleryFactoryTest
     {
         IGalleryFactory _galleryFactory;
-        IMultimediaItemProvider _imip;
+        private IMultimediaItemProvider _multimediaItemProvider;
+        private DummyMultimediaItemsRepo _itemsRepo;
 
         public GalleryFactoryTest()
         {
-            _imip = new DummyMultimediaItemProvider();
-            _galleryFactory = new GalleryFactory(_imip);
+            _itemsRepo = new DummyMultimediaItemsRepo();
+            _multimediaItemProvider = new MultimediaItemProvider(_itemsRepo);
+            _galleryFactory = new GalleryFactory(_multimediaItemProvider);
         }
 
         /// <summary>

@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Gallerio.Api.Dtos
 {
-    public record ReindexMultimediaSourcesResponseDto(int MediaUpdated, int NewMediaAdded, int TotalMediaCount);
-    public record MultimediaSourceDto(Guid Id, string SourceConfigurationFilePath);
+    public record ReindexMultimediaSourcesResponseDto(int NewMediaAdded, int TotalMediaCount);
+    public record MultimediaSourceDto(Guid Id, string SourceDir);
 }

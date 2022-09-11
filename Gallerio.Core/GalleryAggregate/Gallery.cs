@@ -42,7 +42,7 @@ namespace Gallerio.Core.GalleryAggregate
 
         public async Task<IEnumerable<MultimediaItem>> LoadMultimediaItems()
         {
-            return await _muip.GetMultimediaItems(this.Id);
+            return await _muip.GetMultimediaItems(this);
         }
 
         public IReadOnlyCollection<MultimediaSource> GetMultimediaSources => _multimediaSources;

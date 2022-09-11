@@ -1,6 +1,7 @@
 using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces;
+using Gallerio.Core.Tests.Services;
 using Gallerio.Infrastructure.Services.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
@@ -12,17 +13,19 @@ namespace Gallerio.Core.Tests
     {
         private Gallery? _existingGallery;
         private Guid _nonExistingGalleryId = Guid.Empty;
-        private IEnumerable<Guid> _allGalleriesId = new Guid[0];
         private GalleryUpdater _galleryUpdater;
         private DummyGalleryRepo _repo;
         private IGalleryFactory _galleryFactory;
+        private IMultimediaItemProvider _multimediaItemProvider;
+        private DummyMultimediaItemsRepo _itemsRepo;
 
         public GalleryUpdaterTest()
         {
-            _galleryFactory = new GalleryFactory(new DummyMultimediaItemProvider());
+            _itemsRepo = new DummyMultimediaItemsRepo();
+            _multimediaItemProvider = new MultimediaItemProvider(_itemsRepo);
+            _galleryFactory = new GalleryFactory(_multimediaItemProvider);
             _repo = new DummyGalleryRepo(_galleryFactory);
             _galleryUpdater = new GalleryUpdater(_repo);
-            _allGalleriesId = _repo.GetExistingGalleries().Select(d => d.Id);
             _existingGallery = _repo.GetExistingGalleries().First();
             _nonExistingGalleryId = _repo.GetNotExistingGalleryGuid();
         }

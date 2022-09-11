@@ -17,8 +17,10 @@ namespace Gallerio.Core.GalleryAggregate
 
         public Guid Id { get; }
 
+        /// <summary>
+        /// Name is unique in scope of MultimediaSource.
+        /// The Name is partial file path from base path (which is multimedia SourceDir)
+        /// </summary>
         public string Name { get; }
-
     }
-
 }

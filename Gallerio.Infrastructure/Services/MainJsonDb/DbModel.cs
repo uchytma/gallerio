@@ -1,4 +1,4 @@
-﻿namespace Gallerio.Infrastructure.Db
+﻿namespace Gallerio.Infrastructure.Services.MainJsonDb
 {
     public record DbModel(List<GalleryModel> Galleries)
     {
@@ -7,5 +7,5 @@
 
     public record GalleryModel(Guid Id, string Name, string Description, string Date, int PhotosTotalCount, List<MultimediaSource> MultimediaSources);
 
-    public record MultimediaSource(Guid Id, string SourceConfigurationFilePath);
+    public record MultimediaSource(Guid Id, string SourceDir);
 }

@@ -10,12 +10,12 @@ namespace Gallerio.Api.Endpoints
     [ApiController]
     public class GalleryMultimediaSourcesController : ControllerBase
     {
-        private readonly IGalleryIndexer _galleryIndexer;
+        private readonly IGalleryIndexerFactory _galleryIndexerFactory;
         private readonly IGalleryProvider _galleryProvider;
 
-        public GalleryMultimediaSourcesController(IGalleryIndexer galleryIndexer, IGalleryProvider galleryProvider)
+        public GalleryMultimediaSourcesController(IGalleryIndexerFactory galleryIndexerFactory, IGalleryProvider galleryProvider)
         {
-            _galleryIndexer = galleryIndexer;
+            _galleryIndexerFactory = galleryIndexerFactory;
             _galleryProvider = galleryProvider;
         }
 
@@ -39,7 +39,7 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var indexerResponse = await _galleryIndexer.ReindexMultimediaResources(gallery);
+                var indexerResponse = await _galleryIndexerFactory.Create().ReindexMultimediaResources(gallery);
                 return Ok(indexerResponse.ToDto());
             }
             catch (GalleryNotFoundException)

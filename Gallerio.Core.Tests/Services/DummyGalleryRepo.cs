@@ -21,8 +21,24 @@ namespace Gallerio.Infrastructure.Services.Repositories
         public DummyGalleryRepo(IGalleryFactory factory)
         {
             _galleryFactory = factory;
-            _galleries.Add(_galleryFactory.Create(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), "Norsko", "description Norsko", "2022", 10, Enumerable.Empty<MultimediaSource>()));
-            _galleries.Add(_galleryFactory.Create(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), "Berlín", "description Berlín", "2021", 1000, Enumerable.Empty<MultimediaSource>()));
+            _galleries.Add(_galleryFactory.Create(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), 
+                "Norsko", 
+                "description Norsko", 
+                "2022", 
+                10, 
+                new MultimediaSource[] 
+                { 
+                    new MultimediaSource(new Guid("7858785c-1234-4a08-b112-0347754e478d"), "C:\\dev\\gallerio\\099D5200") 
+                }));
+            _galleries.Add(_galleryFactory.Create(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), 
+                "Berlín", 
+                "description Berlín",
+                "2021",
+                1000,
+                new MultimediaSource[]
+                {
+                    new MultimediaSource(new Guid("7858785c-5678-4a08-b112-0347754e4766"), "C:\\dev\\gallerio\\099D5200")
+                }));
         }
 
         /// <summary>

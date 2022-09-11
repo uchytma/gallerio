@@ -18,12 +18,12 @@ namespace Gallerio.Api.Extensions
 
         public static ReindexMultimediaSourcesResponseDto ToDto(this GalleryIndexer.ReindexMultimediaResourcesResponse model)
         {
-            return new ReindexMultimediaSourcesResponseDto(model.MediaUpdated, model.NewMediaAdded, model.TotalMediaCount);
+            return new ReindexMultimediaSourcesResponseDto(model.NewMediaAdded, model.TotalMediaCount);
         }
 
         public static MultimediaSourceDto ToDto(this MultimediaSource model)
         {
-            return new MultimediaSourceDto(model.Id, model.SourceConfigurationFilePath);
+            return new MultimediaSourceDto(model.Id, model.SourceDir);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces;
+using Gallerio.Core.Tests.Services;
 using Gallerio.Infrastructure.Services.Repositories;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,19 @@ namespace Gallerio.Core.Tests
     {
 
         MultimediaItemProvider _imip;
+        IMultimediaItemsReadonlyRepo _imirr;
+        private IMultimediaItemProvider _multimediaItemProvider;
+        private DummyMultimediaItemsRepo _itemsRepo;
+        private DummyGalleryRepo _repo;
 
         public MultimediaItemProviderTest()
         {
-            _imip = new MultimediaItemProvider();
+            _itemsRepo = new DummyMultimediaItemsRepo();
+            _multimediaItemProvider = new MultimediaItemProvider(_itemsRepo);
+            IGalleryFactory f = new GalleryFactory(_multimediaItemProvider);
+            _repo = new DummyGalleryRepo(f);
+            _imirr = new DummyMultimediaItemsRepo();
+            _imip = new MultimediaItemProvider(_imirr);
         }
 
         /// <summary>
@@ -29,9 +39,9 @@ namespace Gallerio.Core.Tests
         {
             var guidTestItem = new Guid("d1f91baf-a935-4bf5-93c1-c2034a1690d4");
 
-            var multimediaItems = (await _imip.GetMultimediaItems(Guid.NewGuid())).ToList();
+            var multimediaItems = (await _imip.GetMultimediaItems(_repo.GetExistingGalleries().First())).ToList();
 
-            Assert.AreEqual(2002, multimediaItems.Count);
+            Assert.AreEqual(2, multimediaItems.Count);
 
             //Select one media item and test its properties.
             var testItem = multimediaItems.SingleOrDefault(d => d.Id == guidTestItem);
