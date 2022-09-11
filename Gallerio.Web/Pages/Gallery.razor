@@ -29,7 +29,7 @@ else
                         <div class="card m-2 @(mi == _selectedMultimedia ? "selected" : null)" @onclick="() => ShowMultimedia(index)">
                             <div class="card-body p-2">
                                 <p class="card-title">@mi.PartialPath</p>
-                                <p class="card-subtitle text-muted">@mi.Id</p>
+                                <p class="card-subtitle text-muted">@mi.CaptureDateTime.ToString("dd.MM.yyyy HH:mm")</p>
                             </div>
                         </div>
                     }

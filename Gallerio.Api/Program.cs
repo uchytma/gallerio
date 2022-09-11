@@ -2,6 +2,7 @@ using Gallerio.Api.Options;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces;
 using Gallerio.Infrastructure.Services.MainJsonDb;
+using Gallerio.Infrastructure.Services.MetadataExtractor;
 using Gallerio.Infrastructure.Services.MultimediaItemsJsonFileDb;
 using Gallerio.Infrastructure.Services.Repositories;
 
@@ -43,7 +44,9 @@ namespace Gallerio.Api
             builder.Services.AddSingleton<IMultimediaItemUpdater, MultimediaItemUpdater>();
             builder.Services.AddSingleton<IMultimediaItemsReadonlyRepo, MultimediaItemsRepoJsonFile>();
             builder.Services.AddSingleton<IMultimediaItemsUpdateRepo, MultimediaItemsRepoJsonFile>();
-           
+
+            builder.Services.AddSingleton<IMetadataExtractor, MetadataExtractorService>();
+
             builder.Services.AddSingleton<JsonFileMultimediaItemsFactory>();
             builder.Services.AddSingleton<JsonFileDb>();
 

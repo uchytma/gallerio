@@ -14,8 +14,8 @@ namespace Gallerio.Core.Tests.Services
         {
              return new List<MultimediaItem>()
             {
-                new MultimediaItem(new Guid("d1f91baf-a935-4bf5-93c1-c2034a1690d4"), "test1.jpg", source),
-                new MultimediaItem(new Guid("a1f91baf-a935-4bf5-93c1-c2034a1690d2"), "test2.jpg", source),
+                new MultimediaItem(new Guid("d1f91baf-a935-4bf5-93c1-c2034a1690d4"), "test1.jpg", source, DateTime.MinValue),
+                new MultimediaItem(new Guid("a1f91baf-a935-4bf5-93c1-c2034a1690d2"), "test2.jpg", source, DateTime.MinValue),
             };
         }
 

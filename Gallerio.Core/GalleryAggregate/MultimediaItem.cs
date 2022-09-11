@@ -9,11 +9,12 @@ namespace Gallerio.Core.GalleryAggregate
 {
     public class MultimediaItem
     {
-        public MultimediaItem(Guid id, string partialPath, MultimediaSource source)
+        public MultimediaItem(Guid id, string partialPath, MultimediaSource source, DateTime capturedDateTime)
         {
             this.Id = id;
             this.PartialPath = partialPath;
             this.Source = source;
+            CapturedDateTime = capturedDateTime;
         }
 
         public Guid Id { get; }
@@ -36,6 +37,6 @@ namespace Gallerio.Core.GalleryAggregate
         /// </summary>
         public string MimeType => "image/jpeg";
 
-
+        public DateTime CapturedDateTime { get; }
     }
 }

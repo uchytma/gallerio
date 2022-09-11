@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gallerio.Api.Dtos
+namespace Gallerio.Core.GalleryAggregate
 {
-   public record MultimediaItemDto(Guid Id, string PartialPath, DateTime CaptureDateTime);
+    public record MetadataResult(DateTime? CaptureDateTime);
 }

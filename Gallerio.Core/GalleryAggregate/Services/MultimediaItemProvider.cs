@@ -35,7 +35,7 @@ namespace Gallerio.Core.GalleryAggregate.Services
             {
                 items.AddRange(await GetMultimediaItems(source));
             }
-            return items;
+            return items.OrderBy(d => d.CapturedDateTime);
         }
 
         public async Task<IEnumerable<MultimediaItem>> GetMultimediaItems(MultimediaSource multimediaSource)

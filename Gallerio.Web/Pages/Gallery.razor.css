@@ -1,6 +1,6 @@
 ﻿
 #grid-container {
-    --grid-container-meta-height: 5rem;
+    --grid-container-meta-height: 10rem;
     --grid-container-list-width: 25rem;
     display: grid;
     grid-template-columns: var(--grid-container-list-width) auto;

@@ -32,7 +32,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
 
         public async Task<IReadOnlyCollection<Gallery>> GetGalleryList()
         {
-            return (await _db.GetModel()).Galleries.Select(d => d.ToDomainModel(_galleryFactory)).ToArray();
+            return (await _db.GetModel()).Galleries.Select(d => d.ToDomainModel(_galleryFactory)).OrderBy(d => d.Name).ToArray();
         }
 
         public async Task<Gallery> UpdateGallery(Gallery gallery)

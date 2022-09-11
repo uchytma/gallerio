@@ -38,7 +38,7 @@ namespace Gallerio.Core.GalleryAggregate
 
         public string Date { get; set; }
 
-        public int TotalPhotosCount { get; }
+        public int TotalPhotosCount { get; set; }
 
         public async Task<IEnumerable<MultimediaItem>> LoadMultimediaItems()
         {

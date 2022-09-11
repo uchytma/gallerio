@@ -13,15 +13,21 @@ namespace Gallerio.Core.GalleryAggregate.Services
     {
         private readonly IMultimediaItemProvider _muip;
         private readonly IMultimediaItemUpdater _muiu;
-       
+        private readonly IMetadataExtractor _imex;
+        private readonly IGalleryUpdater _galleryUpdater;
         private int _mediaAdded = 0;
 
         private string[] _allowedExtensions = new string[] { ".jpg", ".jpeg" };
 
-        internal GalleryIndexer(IMultimediaItemProvider muip, IMultimediaItemUpdater muiu)
+        internal GalleryIndexer(IMultimediaItemProvider muip, 
+            IMultimediaItemUpdater muiu, 
+            IMetadataExtractor imex, 
+            IGalleryUpdater galleryUpdater)
         {
             _muip = muip;
             _muiu = muiu;
+            _imex = imex;
+            _galleryUpdater = galleryUpdater;
         }
 
         public async Task<ReindexMultimediaResourcesResponse> ReindexMultimediaResources(Gallery gallery)
@@ -33,6 +39,9 @@ namespace Gallerio.Core.GalleryAggregate.Services
             {
                 mediaItems.AddRange(await ProcessSource(source));
             }
+
+            gallery.TotalPhotosCount = mediaItems.Count();
+            await _galleryUpdater.UpdateGallery(gallery);
 
             return new ReindexMultimediaResourcesResponse(_mediaAdded, mediaItems.Count());
         }
@@ -55,7 +64,9 @@ namespace Gallerio.Core.GalleryAggregate.Services
 
                 if (!SupportedMultimediaType(filePath)) continue;
 
-                var newFoundMultimediaItem = new MultimediaItem(Guid.NewGuid(), fileName, source);
+                var metadata = _imex.LoadMetadata(filePath);
+
+                var newFoundMultimediaItem = new MultimediaItem(Guid.NewGuid(), fileName, source, metadata.CaptureDateTime ?? DateTime.MinValue);
                 newResultItems.Add(newFoundMultimediaItem);
                 _mediaAdded++;
             }
