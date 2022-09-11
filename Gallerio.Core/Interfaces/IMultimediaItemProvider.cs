@@ -9,6 +9,7 @@ namespace Gallerio.Core.Interfaces
 {
     public interface IMultimediaItemProvider
     {
+        Task<MultimediaItem> FindMultimediaItem(Gallery gallery, Guid multimediaId);
         Task<IEnumerable<MultimediaItem>> GetMultimediaItems(Gallery id);
         Task<IEnumerable<MultimediaItem>> GetMultimediaItems(MultimediaSource id);
     }

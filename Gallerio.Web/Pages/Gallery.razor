@@ -22,11 +22,13 @@ else
             else
             {
                 <div>
-                    @foreach (var mi in _multimedia!)
+                    @for (int i = 0; i < _multimedia.Count(); i++)
                     {
-                        <div class="card m-2">
+                        var index = i;
+                        var mi = _multimedia[index];
+                        <div class="card m-2 @(mi == _selectedMultimedia ? "selected" : null)" @onclick="() => ShowMultimedia(index)">
                             <div class="card-body p-2">
-                                <p class="card-title">@mi.Name</p>
+                                <p class="card-title">@mi.PartialPath</p>
                                 <p class="card-subtitle text-muted">@mi.Id</p>
                             </div>
                         </div>
@@ -34,18 +36,60 @@ else
                 </div>
             }
         </div>
-        <div id="grid-container-image">b</div>
+        <div id="grid-container-image" class="d-flex align-items-center justify-content-center">
+            @if (_selectedMultimediaUrlSrc is null)
+            {
+                <p class="text-muted">Vyberte multimedia v seznamu vlevo.</p>
+            }
+            else
+            {
+
+                <img src="@_selectedMultimediaUrlSrc">
+            }
+        </div>
         <div id="grid-container-meta">c</div>
+        <div id="grid-container-controls" class="d-flex justify-content-center align-items-center">
+            <div @onclick="() => NavigateLeft()" class="d-flex justify-content-center align-items-center"><span class="oi oi-caret-left" aria-hidden="true"></span></div>
+            <div @onclick="() => NavigateRight()" class="d-flex justify-content-center align-items-center"><span class="oi oi-caret-right" aria-hidden="true"></span></div>
+        </div>
     </div>
 }
+
+
 
 @code {
     private GalleryDto? _gallery;
 
-    private IEnumerable<MultimediaItemDto>? _multimedia;
+    private MultimediaItemDto[]? _multimedia;
+
+    private string? _selectedMultimediaUrlSrc = null;
+
+    private MultimediaItemDto? _selectedMultimedia = null;
+
+    private int? _selectedMultimediaIndex = null;
 
     [Parameter]
     public string? GalleryId { get; set; }
+
+    public void NavigateLeft()
+    {
+        if (_selectedMultimediaIndex == null || _selectedMultimediaIndex == 0) return;
+        ShowMultimedia(_selectedMultimediaIndex.Value - 1);
+    }
+
+    public void NavigateRight()
+    {
+        if (_selectedMultimediaIndex == null || _multimedia == null || _selectedMultimediaIndex == _multimedia.Count() - 1) return;
+        ShowMultimedia(_selectedMultimediaIndex.Value + 1);
+    }
+
+    public void ShowMultimedia(int index)
+    {
+        _selectedMultimediaIndex = index;
+        _selectedMultimedia = _multimedia![index];
+        _selectedMultimediaUrlSrc = $"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/raw";
+
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,8 +108,6 @@ else
         StateHasChanged();
 
         _multimedia = await getMultimediaRq;
-
-     
     }
 
     public void Dispose()

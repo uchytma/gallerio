@@ -9,18 +9,33 @@ namespace Gallerio.Core.GalleryAggregate
 {
     public class MultimediaItem
     {
-        public MultimediaItem(Guid id, string name)
+        public MultimediaItem(Guid id, string partialPath, MultimediaSource source)
         {
             this.Id = id;
-            this.Name = name;
+            this.PartialPath = partialPath;
+            this.Source = source;
         }
 
         public Guid Id { get; }
 
         /// <summary>
-        /// Name is unique in scope of MultimediaSource.
+        /// PartialPath is unique in scope of MultimediaSource.
         /// The Name is partial file path from base path (which is multimedia SourceDir)
         /// </summary>
-        public string Name { get; }
+        public string PartialPath { get; }
+
+        public string Name => PartialPath.Split('\\').Last();
+
+        public MultimediaSource Source { get; }
+
+        public string FullPath => Path.Combine(Source.SourceDir, this.PartialPath);
+
+        /// <summary>
+        /// TODO: detect mime type from Name extension. 
+        /// For now we have jpeg images only.
+        /// </summary>
+        public string MimeType => "image/jpeg";
+
+
     }
 }

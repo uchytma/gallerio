@@ -47,7 +47,7 @@ namespace Gallerio.Core.Tests
             var testItem = multimediaItems.SingleOrDefault(d => d.Id == guidTestItem);
             Assert.IsNotNull(testItem);
             Assert.AreEqual(guidTestItem, testItem.Id);
-            Assert.AreEqual("test1.jpg", testItem.Name);
+            Assert.AreEqual("test1.jpg", testItem.PartialPath);
         }
     }
 }

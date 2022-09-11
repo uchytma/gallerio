@@ -11,5 +11,5 @@ namespace Gallerio.Infrastructure.Services.MultimediaItemsJsonFileDb
         public static DbModel Empty => new DbModel(Enumerable.Empty<MultimediaItem>().ToList());
     }
 
-    public record MultimediaItem(Guid Id, string Name);
+    public record MultimediaItem(Guid Id, string PartialPath);
 }

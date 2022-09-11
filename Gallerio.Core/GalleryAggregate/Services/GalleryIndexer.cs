@@ -42,7 +42,7 @@ namespace Gallerio.Core.GalleryAggregate.Services
             List<MultimediaItem> newResultItems = new List<MultimediaItem>();
 
             IEnumerable<MultimediaItem> items = await _muip.GetMultimediaItems(source);
-            Dictionary<string, MultimediaItem> itemsDict = items.ToDictionary(d => d.Name, d => d); //search by name performance optimalization
+            Dictionary<string, MultimediaItem> itemsDict = items.ToDictionary(d => d.PartialPath, d => d); //search by name performance optimalization
 
             foreach (string filePath in Directory.EnumerateFiles(source.SourceDir, "*.*", SearchOption.AllDirectories))
             {
@@ -55,7 +55,7 @@ namespace Gallerio.Core.GalleryAggregate.Services
 
                 if (!SupportedMultimediaType(filePath)) continue;
 
-                var newFoundMultimediaItem = new MultimediaItem(Guid.NewGuid(), fileName);
+                var newFoundMultimediaItem = new MultimediaItem(Guid.NewGuid(), fileName, source);
                 newResultItems.Add(newFoundMultimediaItem);
                 _mediaAdded++;
             }

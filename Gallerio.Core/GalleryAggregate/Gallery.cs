@@ -45,13 +45,11 @@ namespace Gallerio.Core.GalleryAggregate
             return await _muip.GetMultimediaItems(this);
         }
 
-        public IReadOnlyCollection<MultimediaSource> GetMultimediaSources => _multimediaSources;
-
-        public MultimediaSource AddMultimediaSource(string path)
+        public async Task<MultimediaItem> FindMultimediaItem(Guid multimediaId)
         {
-            MultimediaSource source = new MultimediaSource(new Guid(), path);
-            this._multimediaSources.Add(source);
-            return source;
+            return await _muip.FindMultimediaItem(this, multimediaId);
         }
+
+        public IReadOnlyCollection<MultimediaSource> GetMultimediaSources => _multimediaSources;
     }
 }

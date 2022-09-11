@@ -13,7 +13,7 @@ namespace Gallerio.Api.Extensions
 
         public static MultimediaItemDto ToDto(this MultimediaItem model)
         {
-            return new MultimediaItemDto(model.Id, model.Name);
+            return new MultimediaItemDto(model.Id, model.PartialPath);
         }
 
         public static ReindexMultimediaSourcesResponseDto ToDto(this GalleryIndexer.ReindexMultimediaResourcesResponse model)
