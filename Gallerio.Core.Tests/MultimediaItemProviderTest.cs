@@ -31,7 +31,7 @@ namespace Gallerio.Core.Tests
 
             var multimediaItems = (await _imip.GetMultimediaItems(Guid.NewGuid())).ToList();
 
-            Assert.AreEqual(2, multimediaItems.Count);
+            Assert.AreEqual(2002, multimediaItems.Count);
 
             //Select one media item and test its properties.
             var testItem = multimediaItems.SingleOrDefault(d => d.Id == guidTestItem);

@@ -1,5 +1,6 @@
 ﻿using Gallerio.Api.Dtos;
 using Gallerio.Core.GalleryAggregate;
+using Gallerio.Core.GalleryAggregate.Services;
 
 namespace Gallerio.Api.Extensions
 {
@@ -15,5 +16,14 @@ namespace Gallerio.Api.Extensions
             return new MultimediaItemDto(model.Id, model.Name);
         }
 
+        public static ReindexMultimediaSourcesResponseDto ToDto(this GalleryIndexer.ReindexMultimediaResourcesResponse model)
+        {
+            return new ReindexMultimediaSourcesResponseDto(model.MediaUpdated, model.NewMediaAdded, model.TotalMediaCount);
+        }
+
+        public static MultimediaSourceDto ToDto(this MultimediaSource model)
+        {
+            return new MultimediaSourceDto(model.Id, model.SourceConfigurationFilePath);
+        }
     }
 }

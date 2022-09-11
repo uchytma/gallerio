@@ -13,7 +13,13 @@ namespace Gallerio.Infrastructure.Extensions
     {
         internal static Gallery ToDomainModel(this GalleryModel model, IGalleryFactory galleryFactory)
         {
-            return galleryFactory.Create(model.Id, model.Name, model.Description, model.Date, model.PhotosTotalCount);
+            return galleryFactory.Create(model.Id,
+                model.Name,
+                model.Description, 
+                model.Date, 
+                model.PhotosTotalCount, 
+                model.MultimediaSources?.Select(d => new Core.GalleryAggregate.MultimediaSource(d.Id, d.SourceConfigurationFilePath)) 
+                    ?? Enumerable.Empty<Core.GalleryAggregate.MultimediaSource>());
         }
     }
 }

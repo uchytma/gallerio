@@ -11,13 +11,22 @@ namespace Gallerio.Core.GalleryAggregate
     {
         private readonly IMultimediaItemProvider _muip;
 
-        internal Gallery(Guid id, string name, string description, string date, int totalPhotosCount, IMultimediaItemProvider muip)
+        private readonly List<MultimediaSource> _multimediaSources;
+
+        internal Gallery(Guid id, 
+            string name, 
+            string description, 
+            string date, 
+            int totalPhotosCount, 
+            IEnumerable<MultimediaSource> multimediaSources, 
+            IMultimediaItemProvider muip)
         {
             Id = id;
             Name = name;
             Description = description;
             Date = date;
             TotalPhotosCount = totalPhotosCount;
+            _multimediaSources = multimediaSources.ToList();
             _muip = muip;
         }
 
@@ -34,6 +43,15 @@ namespace Gallerio.Core.GalleryAggregate
         public async Task<IEnumerable<MultimediaItem>> LoadMultimediaItems()
         {
             return await _muip.GetMultimediaItems(this.Id);
+        }
+
+        public IReadOnlyCollection<MultimediaSource> GetMultimediaSources => _multimediaSources;
+
+        public MultimediaSource AddMultimediaSource(string path)
+        {
+            MultimediaSource source = new MultimediaSource(new Guid(), path);
+            this._multimediaSources.Add(source);
+            return source;
         }
     }
 }

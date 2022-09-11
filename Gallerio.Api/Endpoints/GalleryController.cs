@@ -14,11 +14,12 @@ namespace Gallerio.Api.Endpoints
     {
         private readonly IGalleryProvider _galleryProvider;
         private readonly IGalleryUpdater _galleryUpdater;
+        
 
         public GalleryController(IGalleryProvider galleryProvider, IGalleryUpdater galleryUpdater)
         {
-            this._galleryProvider = galleryProvider;
-            this._galleryUpdater = galleryUpdater;
+            _galleryProvider = galleryProvider;
+            _galleryUpdater = galleryUpdater;
         }
 
         [HttpGet]

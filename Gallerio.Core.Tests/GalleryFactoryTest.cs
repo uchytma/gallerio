@@ -1,4 +1,5 @@
-﻿using Gallerio.Core.GalleryAggregate.Services;
+﻿using Gallerio.Core.GalleryAggregate;
+using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces;
 using Gallerio.Infrastructure.Services.Repositories;
 using System;
@@ -34,7 +35,7 @@ namespace Gallerio.Core.Tests
             string date = $"date_{Guid.NewGuid}";
             int totalPhotosCount = 20;
 
-            var gallery = _galleryFactory.Create(guid, name, description, date, totalPhotosCount);
+            var gallery = _galleryFactory.Create(guid, name, description, date, totalPhotosCount, Enumerable.Empty<MultimediaSource>());
 
             Assert.AreEqual(guid, gallery.Id);
             Assert.AreEqual(name, gallery.Name);
