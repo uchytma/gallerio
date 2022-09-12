@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gallerio.Core.GalleryAggregate
+namespace Gallerio.Core.GalleryAggregate.Exceptions
 {
     public class MultimediaItemNotFoundException : ApplicationException
     {

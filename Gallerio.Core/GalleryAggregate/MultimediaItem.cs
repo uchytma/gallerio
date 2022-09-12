@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gallerio.Core.GalleryAggregate.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -9,12 +10,35 @@ namespace Gallerio.Core.GalleryAggregate
 {
     public class MultimediaItem
     {
-        public MultimediaItem(Guid id, string partialPath, MultimediaSource source, DateTime capturedDateTime)
+        public MultimediaItem(Guid id,
+            string partialPath,
+            MultimediaSource source,
+            DateTime capturedDateTime,
+            IEnumerable<string> tags)
         {
             this.Id = id;
             this.PartialPath = partialPath;
             this.Source = source;
-            CapturedDateTime = capturedDateTime;
+            this.CapturedDateTime = capturedDateTime;
+            this._tags = tags.ToList();
+        }
+
+        private readonly List<string> _tags;
+
+        public IEnumerable<string> Tags => _tags;
+
+        public void AddTag(string tag)
+        {
+            if (_tags.Contains(tag))
+                throw new TagAlreadyExistException();
+            _tags.Add(tag);
+        }
+
+        public void RemoveTag(string tag)
+        {
+            if (!_tags.Contains(tag))
+                throw new TagNotFoundException();
+            _tags.Remove(tag);
         }
 
         public Guid Id { get; }
@@ -38,5 +62,7 @@ namespace Gallerio.Core.GalleryAggregate
         public string MimeType => "image/jpeg";
 
         public DateTime CapturedDateTime { get; }
+
+        
     }
 }

@@ -2,6 +2,7 @@
 using Gallerio.Core.GalleryAggregate;
 using Gallerio.Infrastructure.Extensions;
 using Gallerio.Infrastructure.Services.MainJsonDb;
+using Gallerio.Core.GalleryAggregate.Exceptions;
 
 namespace Gallerio.Infrastructure.Services.Repositories
 {

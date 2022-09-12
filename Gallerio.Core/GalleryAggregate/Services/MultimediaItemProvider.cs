@@ -1,4 +1,5 @@
-﻿using Gallerio.Core.Interfaces;
+﻿using Gallerio.Core.GalleryAggregate.Exceptions;
+using Gallerio.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

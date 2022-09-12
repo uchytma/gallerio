@@ -66,7 +66,11 @@ namespace Gallerio.Core.GalleryAggregate.Services
 
                 var metadata = _imex.LoadMetadata(filePath);
 
-                var newFoundMultimediaItem = new MultimediaItem(Guid.NewGuid(), fileName, source, metadata.CaptureDateTime ?? DateTime.MinValue);
+                var newFoundMultimediaItem = new MultimediaItem(Guid.NewGuid(), 
+                    fileName, 
+                    source, 
+                    metadata.CaptureDateTime ?? DateTime.MinValue,
+                    Enumerable.Empty<string>());
                 newResultItems.Add(newFoundMultimediaItem);
                 _mediaAdded++;
             }

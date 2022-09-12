@@ -20,5 +20,10 @@ namespace Gallerio.Core.GalleryAggregate.Services
         {
             await _updateRepo.ReplaceMultimediaItemsWith(source, mediaItems);
         }
+
+        public async Task UpdateItem(MultimediaItem multimediaItem)
+        {
+            await _updateRepo.UpdateItem(multimediaItem);
+        }
     }
 }

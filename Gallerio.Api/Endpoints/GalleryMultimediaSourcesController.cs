@@ -1,6 +1,6 @@
 ﻿using Gallerio.Api.Dtos;
 using Gallerio.Api.Extensions;
-using Gallerio.Core.GalleryAggregate;
+using Gallerio.Core.GalleryAggregate.Exceptions;
 using Gallerio.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

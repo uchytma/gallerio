@@ -10,5 +10,6 @@ namespace Gallerio.Core.Interfaces
     public interface IMultimediaItemUpdater
     {
         Task ReplaceMultimediaItemsWith(MultimediaSource source, IEnumerable<MultimediaItem> mediaItems);
+        Task UpdateItem(MultimediaItem multimediaItem);
     }
 }

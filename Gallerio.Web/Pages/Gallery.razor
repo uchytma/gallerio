@@ -47,7 +47,26 @@ else
                 <img src="@_selectedMultimediaUrlSrc">
             }
         </div>
-        <div id="grid-container-meta">c</div>
+        <div id="grid-container-meta" class="p-2">
+            @if (_selectedMultimedia is not null)
+            {
+                <div class="d-flex grid-container-meta-tags">
+
+                    @if (_tags != null && !_tags.Any())
+                    {
+                        <p class="text-muted">Nebyl přidán žádný tag.</p>
+                    }
+                   
+                    @foreach (var tag in _tags ?? Enumerable.Empty<string>())
+                    {
+                        <span @onclick="() => RemoveTag(tag)" class="badge bg-primary rounded-pill">
+                            <span class="align-middle">@tag</span>
+                        </span>
+                    }
+                    <a @onclick='() => AddTag("TOP")' href="javascript:void(0)">Přidat tag 'TOP'</a>
+                </div>
+            }
+        </div>
         <div id="grid-container-controls" class="d-flex justify-content-center align-items-center">
             <div @onclick="() => NavigateLeft()" class="d-flex justify-content-center align-items-center"><span class="oi oi-caret-left" aria-hidden="true"></span></div>
             <div @onclick="() => NavigateRight()" class="d-flex justify-content-center align-items-center"><span class="oi oi-caret-right" aria-hidden="true"></span></div>
@@ -68,27 +87,49 @@ else
 
     private int? _selectedMultimediaIndex = null;
 
+    private IEnumerable<string>? _tags = null;
+
     [Parameter]
     public string? GalleryId { get; set; }
 
-    public void NavigateLeft()
+    public async Task AddTag(string tag)
+    {
+        if (_selectedMultimedia == null || _selectedMultimediaIndex == null) return;
+        var tagsResponse = await Http.PostAsJsonAsync<AddTag>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags", new Api.Dtos.AddTag(tag));
+        if (!tagsResponse.IsSuccessStatusCode) throw new ApplicationException("Chyba uložení tagu.");
+        await ShowMultimedia(_selectedMultimediaIndex.Value);
+    }
+
+    public async Task RemoveTag(string tag)
+    {
+        if (_selectedMultimedia == null || _selectedMultimediaIndex == null) return;
+        var tagsResponse = await Http.DeleteAsync($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags/{tag}");
+        if (!tagsResponse.IsSuccessStatusCode) throw new ApplicationException("Chyba odstranění tagu.");
+        await ShowMultimedia(_selectedMultimediaIndex.Value);
+    }
+
+    public async Task NavigateLeft()
     {
         if (_selectedMultimediaIndex == null || _selectedMultimediaIndex == 0) return;
-        ShowMultimedia(_selectedMultimediaIndex.Value - 1);
+        await ShowMultimedia(_selectedMultimediaIndex.Value - 1);
     }
 
-    public void NavigateRight()
+    public async Task NavigateRight()
     {
         if (_selectedMultimediaIndex == null || _multimedia == null || _selectedMultimediaIndex == _multimedia.Count() - 1) return;
-        ShowMultimedia(_selectedMultimediaIndex.Value + 1);
+        await ShowMultimedia(_selectedMultimediaIndex.Value + 1);
     }
 
-    public void ShowMultimedia(int index)
+    public async Task ShowMultimedia(int index)
     {
         _selectedMultimediaIndex = index;
         _selectedMultimedia = _multimedia![index];
         _selectedMultimediaUrlSrc = $"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/raw";
-
+        var tagsResponse = await Http.GetFromJsonAsync<MultimediaItemTagsDto>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags");
+        if (tagsResponse != null && tagsResponse.Tags != null) 
+        {
+            _tags = tagsResponse.Tags;
+        }
     }
 
     protected override async Task OnInitializedAsync()
