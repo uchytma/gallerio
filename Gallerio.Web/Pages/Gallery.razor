@@ -5,6 +5,7 @@
 @inject ILayoutConfigurationService _layoutConfigurationService
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
 @inject NavigationManager _navManager
+@inject IJSRuntime JsRuntime
 @implements IDisposable
 
 @if (_gallery == null)
@@ -51,19 +52,18 @@ else
             @if (_selectedMultimedia is not null)
             {
                 <div class="d-flex grid-container-meta-tags">
-
-                    @if (_tags != null && !_tags.Any())
-                    {
-                        <p class="text-muted">Nebyl přidán žádný tag.</p>
-                    }
-                   
                     @foreach (var tag in _tags ?? Enumerable.Empty<string>())
                     {
-                        <span @onclick="() => RemoveTag(tag)" class="badge bg-primary rounded-pill">
+                        <span @onclick="() => RemoveTag(tag)" class="badge bg-success">
                             <span class="align-middle">@tag</span>
                         </span>
                     }
-                    <a @onclick='() => AddTag("TOP")' href="javascript:void(0)">Přidat tag 'TOP'</a>
+
+                    <div class="input-group input-group-sm">
+                        <input @bind="_addTagValue" type="text" class="form-control">
+                        <button @onclick='() => AddTag(_addTagValue)' class="btn btn-outline-secondary" type="button" id="button-addon2">Přidat tag</button>
+                    </div>
+
                 </div>
             }
         </div>
@@ -77,6 +77,10 @@ else
 
 
 @code {
+    private const string _addTagDefaultValue = "TOP";
+
+    private string? _addTagValue = _addTagDefaultValue;
+
     private GalleryDto? _gallery;
 
     private MultimediaItemDto[]? _multimedia;
@@ -95,9 +99,17 @@ else
     public async Task AddTag(string tag)
     {
         if (_selectedMultimedia == null || _selectedMultimediaIndex == null) return;
+       
         var tagsResponse = await Http.PostAsJsonAsync<AddTag>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags", new Api.Dtos.AddTag(tag));
-        if (!tagsResponse.IsSuccessStatusCode) throw new ApplicationException("Chyba uložení tagu.");
+        if (!tagsResponse.IsSuccessStatusCode) {
+            if (tagsResponse.StatusCode == System.Net.HttpStatusCode.Conflict) {
+                await JsRuntime.InvokeVoidAsync("alert", "Tag již existuje!");
+                return;
+            }
+            throw new ApplicationException("Chyba uložení tagu.");
+        }
         await ShowMultimedia(_selectedMultimediaIndex.Value);
+        _addTagValue = _addTagDefaultValue;
     }
 
     public async Task RemoveTag(string tag)
@@ -126,7 +138,7 @@ else
         _selectedMultimedia = _multimedia![index];
         _selectedMultimediaUrlSrc = $"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/raw";
         var tagsResponse = await Http.GetFromJsonAsync<MultimediaItemTagsDto>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags");
-        if (tagsResponse != null && tagsResponse.Tags != null) 
+        if (tagsResponse != null && tagsResponse.Tags != null)
         {
             _tags = tagsResponse.Tags;
         }
