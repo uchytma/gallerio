@@ -1,4 +1,4 @@
-﻿<div class="card gallery-card h-100" @onclick="CardClicked">
+﻿<div class="card gallery-card h-100" @onclick="OnClickedHandler">
     <img src="/images/test-image.jpg" class="card-img-top" alt="...">
     <div class="card-body">
         <h3 class="card-title">
@@ -36,10 +36,10 @@
 
     /// Event is called when navigation to gallery is required. Event Callback parameter contains gallery Id.
     [Parameter]
-    public EventCallback<Guid> OnGoToGallery { get; set; }
+    public EventCallback<Guid> OnClicked { get; set; }
 
-    private async Task CardClicked(MouseEventArgs e)
+    private async Task OnClickedHandler(MouseEventArgs e)
     {
-        await OnGoToGallery.InvokeAsync(Id);
+        await OnClicked.InvokeAsync(Id);
     }
 }

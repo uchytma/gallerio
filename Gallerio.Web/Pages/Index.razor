@@ -9,7 +9,6 @@
    protected override async Task OnInitializedAsync()
     {
         _breadcrumbsProvider.Clear();
-
         _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/", "Home", false));
     }
 }

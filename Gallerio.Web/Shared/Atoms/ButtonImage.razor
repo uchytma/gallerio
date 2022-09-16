@@ -1,0 +1,16 @@
+﻿<div @onclick="OnClickedHandler" class="button-image-container d-flex justify-content-center align-items-center">
+    <span class="oi @OpenIconicClass" aria-hidden="true"></span>
+</div>
+
+@code {
+    [Parameter]
+    public string OpenIconicClass { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnClicked { get; set; }
+
+    private async Task OnClickedHandler(MouseEventArgs e)
+    {
+        await OnClicked.InvokeAsync();
+    }
+}

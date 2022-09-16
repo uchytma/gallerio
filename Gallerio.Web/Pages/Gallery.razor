@@ -69,10 +69,13 @@ else
                 </div>
             }
         </div>
-        <div id="grid-container-controls" class="d-flex justify-content-center align-items-center">
-            <div @onclick="() => NavigateLeft()" class="d-flex justify-content-center align-items-center"><span class="oi oi-caret-left" aria-hidden="true"></span></div>
-            <div @onclick="() => NavigateRight()" class="d-flex justify-content-center align-items-center"><span class="oi oi-caret-right" aria-hidden="true"></span></div>
+        <div id="grid-container-controls" class="d-grid justify-content-center">
+            <ButtonImageGroup>
+                <ButtonImage OpenIconicClass="oi-caret-left" OnClicked="() => NavigateLeft()"></ButtonImage>
+                <ButtonImage OpenIconicClass="oi-caret-right" OnClicked="() => NavigateRight()"></ButtonImage>
+            </ButtonImageGroup>
         </div>
+       
     </div>
 }
 

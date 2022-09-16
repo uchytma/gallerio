@@ -1,6 +1,6 @@
 ﻿
 #grid-container {
-    --grid-container-meta-height: 10rem;
+    --grid-container-meta-height: 3rem;
     --grid-container-list-width: 25rem;
     display: grid;
     grid-template-columns: var(--grid-container-list-width) auto;
@@ -54,21 +54,6 @@
     border-right: 1px solid #d6d5d5;
     border-top: 1px solid #d6d5d5;
 }
-
-    #grid-container-controls > div {
-        font-size: 30px;
-        border: 1px solid #d6d5d5;
-        padding: 0.4rem;
-        margin: 0.1rem;
-        border-radius: 5px;
-        min-width: 40px;
-        background-color: white;
-        cursor: pointer
-    }
-
-        #grid-container-controls > div:hover {
-            background-color: #f7f7f7;
-        }
 
 
 #grid-container-list .card-subtitle {
