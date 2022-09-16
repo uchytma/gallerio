@@ -1,6 +1,7 @@
 ﻿@page "/galleries/{GalleryId}"
 @using Gallerio.Api.Dtos
 @using Gallerio.Web.Client.Services.LayoutConfiguration
+@using Gallerio.Web.Client.Shared.Atoms
 @inject HttpClient Http
 @inject ILayoutConfigurationService _layoutConfigurationService
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
@@ -8,9 +9,10 @@
 @inject IJSRuntime JsRuntime
 @implements IDisposable
 
+
 @if (_gallery == null)
 {
-    <p><em>Načítám...</em></p>
+   <LoadingSpinner></LoadingSpinner>
 }
 else
 {
@@ -18,7 +20,7 @@ else
         <div id="grid-container-list">
             @if (_multimedia == null)
             {
-                <p><em>Načítám...</em></p>
+                <LoadingSpinner class="h-100"></LoadingSpinner>
             }
             else
             {

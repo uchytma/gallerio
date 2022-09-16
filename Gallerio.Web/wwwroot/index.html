@@ -12,14 +12,23 @@
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app">
+        <div class="text-muted d-grid justify-content-center align-items-center m-4">
+            <div>
+                <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                Aplikace se načítá ...
+            </div>
+        </div>
+    </div>
 
     <div id="blazor-error-ui">
         Stala se neočekávná chyba.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="_framework/blazor.webassembly.js"></script>
+   <script src="_framework/blazor.webassembly.js"></script>
 </body>
 
 </html>
