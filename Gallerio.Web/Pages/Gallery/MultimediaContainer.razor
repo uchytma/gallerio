@@ -1,0 +1,15 @@
+﻿<div class="multimedia-container d-flex align-items-center justify-content-center">
+    @if (MultimediaUrl is null)
+    {
+        <p class="text-muted">Není vybrán žádný obrázek.</p>
+    }
+    else
+    {
+        <img src="@MultimediaUrl">
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? MultimediaUrl { get; set; }
+}

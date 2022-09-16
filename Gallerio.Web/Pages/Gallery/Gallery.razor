@@ -40,15 +40,9 @@ else
                 </div>
             }
         </div>
-        <div id="grid-container-image" class="d-flex align-items-center justify-content-center">
-            @if (_selectedMultimediaUrlSrc is null)
-            {
-                <p class="text-muted">Vyberte multimedia v seznamu vlevo.</p>
-            }
-            else
-            {
-                <img src="@_selectedMultimediaUrlSrc">
-            }
+        <div id="grid-container-image" class="d-grid align-content-center justify-content-center">
+            <MultimediaContainer MultimediaUrl="@_selectedMultimediaUrlSrc">
+            </MultimediaContainer>
         </div>
         <div id="grid-container-meta" class="p-2">
             @if (_selectedMultimedia is not null)

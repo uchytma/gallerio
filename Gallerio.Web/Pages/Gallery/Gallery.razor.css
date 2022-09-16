@@ -26,10 +26,7 @@
     padding: 5px;
 }
 
-    #grid-container-image img {
-        max-width: 100%;
-        max-height: 100%;
-    }
+
 
 #grid-container-meta {
     grid-area: c;
