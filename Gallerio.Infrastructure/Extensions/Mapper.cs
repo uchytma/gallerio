@@ -1,5 +1,5 @@
 ﻿using Gallerio.Core.GalleryAggregate;
-using Gallerio.Core.Interfaces;
+using Gallerio.Core.Interfaces.Core;
 using Gallerio.Infrastructure.Services.MainJsonDb;
 using System;
 using System.Collections.Generic;

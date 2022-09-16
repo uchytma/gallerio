@@ -2,7 +2,7 @@
 using Gallerio.Api.Extensions;
 using Gallerio.Core.GalleryAggregate.Exceptions;
 using Gallerio.Core.GalleryAggregate.Services;
-using Gallerio.Core.Interfaces;
+using Gallerio.Core.Interfaces.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

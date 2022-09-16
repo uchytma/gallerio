@@ -1,4 +1,4 @@
-﻿using Gallerio.Core.Interfaces;
+﻿using Gallerio.Core.Interfaces.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

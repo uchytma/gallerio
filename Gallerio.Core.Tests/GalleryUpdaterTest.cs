@@ -1,7 +1,7 @@
 using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Exceptions;
 using Gallerio.Core.GalleryAggregate.Services;
-using Gallerio.Core.Interfaces;
+using Gallerio.Core.Interfaces.Core;
 using Gallerio.Core.Tests.Services;
 using Gallerio.Infrastructure.Services.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

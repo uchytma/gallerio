@@ -1,7 +1,7 @@
 ﻿using Gallerio.Api.Dtos;
 using Gallerio.Api.Extensions;
 using Gallerio.Core.GalleryAggregate.Exceptions;
-using Gallerio.Core.Interfaces;
+using Gallerio.Core.Interfaces.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gallerio.Api.Endpoints

@@ -1,7 +1,7 @@
 ﻿using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Services;
 
-namespace Gallerio.Core.Interfaces
+namespace Gallerio.Core.Interfaces.Core
 {
     public interface IGalleryIndexer
     {

@@ -1,5 +1,4 @@
-﻿using Gallerio.Core.Interfaces;
-using Gallerio.Core.GalleryAggregate;
+﻿using Gallerio.Core.GalleryAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection.Metadata.Ecma335;
 using Gallerio.Core.GalleryAggregate.Exceptions;
+using Gallerio.Core.Interfaces.Core;
+using Gallerio.Core.Interfaces.Infrastructure;
 
 namespace Gallerio.Infrastructure.Services.Repositories
 {

@@ -1,7 +1,6 @@
-﻿
-using Gallerio.Core.GalleryAggregate;
+﻿using Gallerio.Core.GalleryAggregate;
 
-namespace Gallerio.Core.Interfaces
+namespace Gallerio.Core.Interfaces.Infrastructure
 {
     public interface IGalleryUpdateRepo
     {

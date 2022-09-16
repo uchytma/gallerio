@@ -1,5 +1,5 @@
 ﻿using Gallerio.Core.GalleryAggregate;
-using Gallerio.Core.Interfaces;
+using Gallerio.Core.Interfaces.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace Gallerio.Core.Interfaces
+﻿namespace Gallerio.Core.Interfaces.Core
 {
     public interface IGalleryIndexerFactory
     {

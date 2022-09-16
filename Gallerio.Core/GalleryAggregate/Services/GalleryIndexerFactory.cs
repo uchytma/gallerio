@@ -1,4 +1,5 @@
-﻿using Gallerio.Core.Interfaces;
+﻿using Gallerio.Core.Interfaces.Core;
+using Gallerio.Core.Interfaces.Infrastructure;
 
 namespace Gallerio.Core.GalleryAggregate.Services
 {

@@ -1,8 +1,9 @@
-﻿using Gallerio.Core.Interfaces;
-using Gallerio.Core.GalleryAggregate;
+﻿using Gallerio.Core.GalleryAggregate;
 using Gallerio.Infrastructure.Extensions;
 using Gallerio.Infrastructure.Services.MainJsonDb;
 using Gallerio.Core.GalleryAggregate.Exceptions;
+using Gallerio.Core.Interfaces.Core;
+using Gallerio.Core.Interfaces.Infrastructure;
 
 namespace Gallerio.Infrastructure.Services.Repositories
 {

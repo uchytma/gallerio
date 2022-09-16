@@ -1,6 +1,7 @@
 using Gallerio.Api.Options;
 using Gallerio.Core.GalleryAggregate.Services;
-using Gallerio.Core.Interfaces;
+using Gallerio.Core.Interfaces.Core;
+using Gallerio.Core.Interfaces.Infrastructure;
 using Gallerio.Infrastructure.Services.MainJsonDb;
 using Gallerio.Infrastructure.Services.MetadataExtractor;
 using Gallerio.Infrastructure.Services.MultimediaItemsJsonFileDb;
