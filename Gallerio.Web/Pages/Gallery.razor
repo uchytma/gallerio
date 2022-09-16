@@ -2,6 +2,7 @@
 @using Gallerio.Api.Dtos
 @using Gallerio.Web.Client.Services.LayoutConfiguration
 @using Gallerio.Web.Client.Shared.Atoms
+@using Gallerio.Web.Client.Shared.Molecules
 @inject HttpClient Http
 @inject ILayoutConfigurationService _layoutConfigurationService
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
@@ -12,7 +13,7 @@
 
 @if (_gallery == null)
 {
-   <LoadingSpinner></LoadingSpinner>
+    <LoadingSpinner></LoadingSpinner>
 }
 else
 {
@@ -46,26 +47,18 @@ else
             }
             else
             {
-
                 <img src="@_selectedMultimediaUrlSrc">
             }
         </div>
         <div id="grid-container-meta" class="p-2">
             @if (_selectedMultimedia is not null)
             {
-                <div class="d-flex grid-container-meta-tags">
-                    @foreach (var tag in _tags ?? Enumerable.Empty<string>())
-                    {
-                        <span @onclick="() => RemoveTag(tag)" class="badge bg-success">
-                            <span class="align-middle">@tag</span>
-                        </span>
-                    }
-
-                    <div class="input-group input-group-sm">
-                        <input @bind="_addTagValue" type="text" class="form-control">
-                        <button @onclick='() => AddTag(_addTagValue)' class="btn btn-outline-secondary" type="button" id="button-addon2">Přidat tag</button>
-                    </div>
-
+                <div class="grid-container-meta-tags">
+                    <TagList @ref="_tagListRef"
+                     Tags="_tags"
+                     OnTagAdd="AddTag"
+                     OnTagRemove="RemoveTag">
+                    </TagList>
                 </div>
             }
         </div>
@@ -75,16 +68,13 @@ else
                 <ButtonImage OpenIconicClass="oi-caret-right" OnClicked="() => NavigateRight()"></ButtonImage>
             </ButtonImageGroup>
         </div>
-       
+
     </div>
 }
 
 
-
 @code {
-    private const string _addTagDefaultValue = "TOP";
-
-    private string? _addTagValue = _addTagDefaultValue;
+    private TagList? _tagListRef;
 
     private GalleryDto? _gallery;
 
@@ -104,17 +94,20 @@ else
     public async Task AddTag(string tag)
     {
         if (_selectedMultimedia == null || _selectedMultimediaIndex == null) return;
-       
+
         var tagsResponse = await Http.PostAsJsonAsync<AddTag>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags", new Api.Dtos.AddTag(tag));
-        if (!tagsResponse.IsSuccessStatusCode) {
-            if (tagsResponse.StatusCode == System.Net.HttpStatusCode.Conflict) {
+        if (!tagsResponse.IsSuccessStatusCode)
+        {
+            if (tagsResponse.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
                 await JsRuntime.InvokeVoidAsync("alert", "Tag již existuje!");
                 return;
             }
             throw new ApplicationException("Chyba uložení tagu.");
         }
         await ShowMultimedia(_selectedMultimediaIndex.Value);
-        _addTagValue = _addTagDefaultValue;
+
+        _tagListRef?.SetDefaultValueForNewTagInput();
     }
 
     public async Task RemoveTag(string tag)

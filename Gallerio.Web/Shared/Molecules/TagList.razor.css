@@ -1,0 +1,14 @@
+﻿.tag-list-container {
+    gap: 0.25rem;
+}
+
+
+    .tag-list-container .badge {
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+
+    .tag-list-container .input-group {
+        max-width: 200px;
+    }

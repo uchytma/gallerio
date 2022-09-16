@@ -1,0 +1,51 @@
+﻿<div class="d-flex tag-list-container">
+    @foreach (var tag in Tags ?? Enumerable.Empty<string>())
+    {
+        <span @onclick="(e) => OnTagRemoveHandler(e, tag)" class="badge bg-success">
+            <span class="align-middle">@tag</span>
+        </span>
+    }
+
+    <div class="input-group input-group-sm">
+        <input @bind="_addTagValue" type="text" class="form-control">
+        <button @onclick='OnTagAddHandler' class="btn btn-outline-secondary" type="button" id="button-addon2">Přidat tag</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string DefaultValue { get; init; } = "TOP"!;
+
+    [Parameter, EditorRequired]
+    public IEnumerable<string> Tags { get; set; } = default!;
+
+    private string _addTagValue = string.Empty;
+
+    public void SetDefaultValueForNewTagInput()
+    {
+        _addTagValue = DefaultValue;
+    }
+
+    /// Event is called when navigation to gallery is required. Event Callback parameter contains gallery Id.
+    [Parameter]
+    public EventCallback<string> OnTagAdd { get; set; }
+
+    private async Task OnTagAddHandler(MouseEventArgs e)
+    {
+        await OnTagAdd.InvokeAsync(_addTagValue);
+    }
+
+    /// Event is called when navigation to gallery is required. Event Callback parameter contains gallery Id.
+    [Parameter]
+    public EventCallback<string> OnTagRemove { get; set; }
+
+    private async Task OnTagRemoveHandler(MouseEventArgs e, string tag)
+    {
+        await OnTagRemove.InvokeAsync(tag);
+    }
+
+    protected override void OnInitialized()
+    {
+        _addTagValue = DefaultValue;
+    }
+}
