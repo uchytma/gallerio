@@ -1,0 +1,45 @@
+﻿<div class="card gallery-card h-100" @onclick="CardClicked">
+    <img src="/images/test-image.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h3 class="card-title">
+            <a href="javascript:void(0)">
+                @Name
+            </a>
+        </h3>
+        <p class="card-text">@Description</p>
+    </div>
+    <div class="card-footer text-muted d-flex">
+        <div class="flex-grow-1">
+            @PhotosTotalCount fotografií • @Date
+        </div>
+        @*<div>
+            <span class="oi oi-pencil" aria-hidden="true"></span>
+        </div>*@
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public Guid Id { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string Name { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string Description { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string Date { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public int PhotosTotalCount { get; set; } = default!;
+
+    /// Event is called when navigation to gallery is required. Event Callback parameter contains gallery Id.
+    [Parameter]
+    public EventCallback<Guid> OnGoToGallery { get; set; }
+
+    private async Task CardClicked(MouseEventArgs e)
+    {
+        await OnGoToGallery.InvokeAsync(Id);
+    }
+}

@@ -1,0 +1,31 @@
+﻿.gallery-card {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+    .gallery-card a {
+        text-decoration: none;
+    }
+
+    .gallery-card:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .gallery-card > img {
+        max-height: 200px;
+        object-fit: cover;
+        transition: all .2s ease-in-out;
+    }
+
+    .gallery-card:hover > img {
+        transform: scale(105%);
+    }
+
+
+    .gallery-card > .card-footer {
+        font-size: 12px;
+    }
+
+    .gallery-card .oi:hover {
+        color: black;
+    }

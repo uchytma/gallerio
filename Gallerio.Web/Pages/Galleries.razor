@@ -1,8 +1,11 @@
 ﻿@page "/galleries"
 @using Gallerio.Api.Dtos
+@using Gallerio.Web.Client.Shared.Molecules
+@using Gallerio.Web.Client.Shared.Atoms
 @inject HttpClient Http
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
 @inject NavigationManager _navManager
+
 
 @if (_galleries == null)
 {
@@ -15,25 +18,16 @@ else
         {
 
             <div class="col">
-                <div class="card gallery-card h-100" @onclick="() => GoToGallery(gallery.Id)">
-                    <img src="/images/test-image.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            <a href="/Galleries/@gallery.Id">
-                                @gallery.Name
-                            </a>    
-                            </h3>
-                        <p class="card-text">@gallery.Description</p>
-                    </div>
-                    <div class="card-footer text-muted d-flex">
-                        <div class="flex-grow-1">
-                           @gallery.PhotosTotalCount fotografií • @gallery.Date
-                       </div>
-                       <div>
-                           <span class="oi oi-pencil" aria-hidden="true"></span>
-                       </div>
-                    </div>
-                </div>
+                <GalleryCard
+                    Date="@gallery.Date" 
+                    Description="@gallery.Description"
+                    Id="@gallery.Id"
+                    Name="@gallery.Name"
+                    PhotosTotalCount="@gallery.PhotosTotalCount"
+                    OnGoToGallery="GoToGallery"
+                >
+                    
+                </GalleryCard>
             </div>
         }
     </div>

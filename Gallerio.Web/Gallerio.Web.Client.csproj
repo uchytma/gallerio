@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <None Remove="Shared\Atoms\LoadingSpinner.razor.css" />
+    <None Remove="Shared\Molecules\GalleryCard.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Shared\Atoms\LoadingSpinner.razor.css" />
+    <Content Include="Shared\Molecules\GalleryCard.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
