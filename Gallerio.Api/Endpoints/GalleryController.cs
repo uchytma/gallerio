@@ -75,5 +75,44 @@ namespace Gallerio.Api.Endpoints
                 return NotFound();
             }
         }
+
+
+        /// <summary>
+        /// Only for test purposes.
+        /// Endpoint will be deleted/reimplemented in the future.
+        /// 
+        /// Exports (copy) all 'TOP' tagged media from specified gallery to directory C:\\dev\\gallerio\\export.
+        /// All exported media will lost original names and folder structure.
+        /// (It will be exported to a single directory with generated name export_<guid>.)
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("{id}/exportGalleryMultimediaWithTopTag")]
+        public async Task<IActionResult> ExportGalleryMultimediaWithTopTag([FromRoute] Guid id)
+        {
+            try
+            {
+                var gallery = await _galleryProvider.FindGallery(id);
+                var items = await gallery.LoadMultimediaItems();
+                var itemsToExport = items.Where(d => d.Tags.Contains("TOP"));
+                var destDirName = Path.Combine("C:\\dev\\gallerio\\export", $"export_{Guid.NewGuid()}");
+                Directory.CreateDirectory(destDirName);
+
+                foreach (var a in itemsToExport)
+                {
+                    var sourceFileName = a.FullPath;
+                    var destFileName = Path.Combine(destDirName, $"{a.Id}{Path.GetExtension(a.FullPath)}");
+                    System.IO.File.Copy(sourceFileName, destFileName, false);
+                }
+              
+                return Ok();
+            }
+            catch (GalleryNotFoundException)
+            {
+                return NotFound();
+            }
+        }
     }
 }
