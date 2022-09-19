@@ -1,10 +1,12 @@
 ﻿@page "/galleries"
 @using Gallerio.Api.Dtos
+@using Gallerio.Web.Client.Services.BackendProvider
 @using Gallerio.Web.Client.Shared.Molecules
 @using Gallerio.Web.Client.Shared.Atoms
 @inject HttpClient Http
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
 @inject NavigationManager _navManager
+@inject IBackendProvider _backendProvider
 
 
 @if (_galleries == null)
@@ -42,7 +44,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _galleries = await Http.GetFromJsonAsync<GalleryDto[]>("https://localhost:7173/api/gallery");
+        _galleries = await Http.GetFromJsonAsync<GalleryDto[]>(_backendProvider.GetUri("api/gallery"));
         _breadcrumbsProvider.Clear();
         _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/", "Home", true));
         _breadcrumbsProvider.Push(new Services.Breadcrumbs.BreadcrumbLink("/Galleries", "Galerie", false));

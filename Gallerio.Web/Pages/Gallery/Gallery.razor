@@ -1,5 +1,7 @@
 ﻿@page "/galleries/{GalleryId}"
 @using Gallerio.Api.Dtos
+@using Gallerio.Web.Client.Options
+@using Gallerio.Web.Client.Services.BackendProvider
 @using Gallerio.Web.Client.Services.LayoutConfiguration
 @using Gallerio.Web.Client.Shared.Atoms
 @using Gallerio.Web.Client.Shared.Molecules
@@ -8,6 +10,8 @@
 @inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
 @inject NavigationManager _navManager
 @inject IJSRuntime JsRuntime
+@inject IBackendProvider _backendProvider
+
 @implements IDisposable
 
 
@@ -89,7 +93,7 @@ else
     {
         if (_selectedMultimedia == null || _selectedMultimediaIndex == null) return;
 
-        var tagsResponse = await Http.PostAsJsonAsync<AddTag>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags", new Api.Dtos.AddTag(tag));
+        var tagsResponse = await Http.PostAsJsonAsync<AddTag>(_backendProvider.GetUri($"api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags"), new Api.Dtos.AddTag(tag));
         if (!tagsResponse.IsSuccessStatusCode)
         {
             if (tagsResponse.StatusCode == System.Net.HttpStatusCode.Conflict)
@@ -107,7 +111,7 @@ else
     public async Task RemoveTag(string tag)
     {
         if (_selectedMultimedia == null || _selectedMultimediaIndex == null) return;
-        var tagsResponse = await Http.DeleteAsync($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags/{tag}");
+        var tagsResponse = await Http.DeleteAsync(_backendProvider.GetUri($"api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags/{tag}"));
         if (!tagsResponse.IsSuccessStatusCode) throw new ApplicationException("Chyba odstranění tagu.");
         await ShowMultimedia(_selectedMultimediaIndex.Value);
     }
@@ -128,8 +132,8 @@ else
     {
         _selectedMultimediaIndex = index;
         _selectedMultimedia = _multimedia![index];
-        _selectedMultimediaUrlSrc = $"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/raw";
-        var tagsResponse = await Http.GetFromJsonAsync<MultimediaItemTagsDto>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags");
+        _selectedMultimediaUrlSrc = _backendProvider.GetUri($"api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/raw").ToString();
+        var tagsResponse = await Http.GetFromJsonAsync<MultimediaItemTagsDto>(_backendProvider.GetUri($"api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags"));
         if (tagsResponse != null && tagsResponse.Tags != null)
         {
             _tags = tagsResponse.Tags;
@@ -138,8 +142,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var getGalleryRq = Http.GetFromJsonAsync<GalleryDto>($"https://localhost:7173/api/gallery/{GalleryId}");
-        var getMultimediaRq = Http.GetFromJsonAsync<MultimediaItemDto[]>($"https://localhost:7173/api/gallery/{GalleryId}/multimedia");
+        var getGalleryRq = Http.GetFromJsonAsync<GalleryDto>(_backendProvider.GetUri($"api/gallery/{GalleryId}"));
+        var getMultimediaRq = Http.GetFromJsonAsync<MultimediaItemDto[]>(_backendProvider.GetUri($"api/gallery/{GalleryId}/multimedia"));
 
         _gallery = await getGalleryRq;
 
