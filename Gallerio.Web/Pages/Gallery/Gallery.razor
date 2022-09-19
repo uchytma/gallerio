@@ -45,7 +45,9 @@ else
             }
         </div>
         <div id="grid-container-image" class="d-flex align-content-center justify-content-center">
-            <MultimediaContainer MultimediaUrl="@_selectedMultimediaUrlSrc">
+            <MultimediaContainer 
+                SelectedMultimediaItem="@_selectedMultimedia" 
+                GalleryId="@GalleryId">
             </MultimediaContainer>
         </div>
         <div id="grid-container-meta" class="p-2">
@@ -77,8 +79,6 @@ else
     private GalleryDto? _gallery;
 
     private MultimediaItemDto[]? _multimedia;
-
-    private string? _selectedMultimediaUrlSrc = null;
 
     private MultimediaItemDto? _selectedMultimedia = null;
 
@@ -132,7 +132,6 @@ else
     {
         _selectedMultimediaIndex = index;
         _selectedMultimedia = _multimedia![index];
-        _selectedMultimediaUrlSrc = _backendProvider.GetUri($"api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/raw").ToString();
         var tagsResponse = await Http.GetFromJsonAsync<MultimediaItemTagsDto>(_backendProvider.GetUri($"api/gallery/{GalleryId}/multimedia/{_selectedMultimedia.Id}/tags"));
         if (tagsResponse != null && tagsResponse.Tags != null)
         {

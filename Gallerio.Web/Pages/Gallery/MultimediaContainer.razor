@@ -1,15 +1,34 @@
-﻿<div class="multimedia-container d-flex align-items-center justify-content-center">
-    @if (MultimediaUrl is null)
+﻿@using Gallerio.Api.Dtos
+@using Gallerio.Web.Client.Services.BackendProvider
+@inject IBackendProvider _backendProvider
+
+
+<div class="multimedia-container d-flex align-items-center justify-content-center">
+    @if (_selectMultimediaUri is null)
     {
         <p class="text-muted">Není vybrán žádný obrázek.</p>
     }
     else
     {
-        <img src="@MultimediaUrl">
+        <img src="@_selectMultimediaUri">
     }
 </div>
 
 @code {
     [Parameter]
-    public string? MultimediaUrl { get; set; }
+    public MultimediaItemDto? SelectedMultimediaItem { get; set; }
+
+    [Parameter]
+    public string GalleryId { get; set; } = default!;
+
+    private string? _selectMultimediaUri;
+
+    protected override void OnParametersSet()
+    {
+        if (SelectedMultimediaItem is null || GalleryId is null) {
+            _selectMultimediaUri = null;
+            return;
+        }
+        _selectMultimediaUri = _backendProvider.GetUri($"api/gallery/{GalleryId}/multimedia/{SelectedMultimediaItem.Id}/raw").ToString();
+    }
 }
