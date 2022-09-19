@@ -27,6 +27,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
                 { 
                     new MultimediaSource(new Guid("7858785c-1234-4a08-b112-0347754e478d"), "C:\\dev\\gallerio\\099D5200") 
                 }));
+
             _galleries.Add(new Gallery(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), 
                 "Berlín", 
                 "description Berlín",

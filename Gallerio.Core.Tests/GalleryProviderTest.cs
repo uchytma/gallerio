@@ -59,7 +59,7 @@ namespace Gallerio.Core.Tests
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        public async Task GetGalleryList()
+        public async Task TestGetGalleryList()
         {
             var galleries = await _galleryProvider.GetGalleryList();
             Assert.AreEqual(_allGalleriesId.Count(), galleries.Count);

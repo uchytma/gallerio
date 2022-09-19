@@ -13,7 +13,6 @@ namespace Gallerio.Core.GalleryAggregate.Services
     {
         private readonly IMultimediaItemsReadonlyRepo _readonlyRepo;
 
-
         public MultimediaItemProvider(IMultimediaItemsReadonlyRepo repo)
         {
             _readonlyRepo = repo;
@@ -45,7 +44,7 @@ namespace Gallerio.Core.GalleryAggregate.Services
             return (await _readonlyRepo.GetMultimediaItems(multimediaSource)).AsEnumerable();
         }
 
-        public async Task<MultimediaItem?> FindMultimediaItem(MultimediaSource multimediaSource, Guid multimediaId)
+        private async Task<MultimediaItem?> FindMultimediaItem(MultimediaSource multimediaSource, Guid multimediaId)
         {
             return await _readonlyRepo.FindMultimediaItem(multimediaSource, multimediaId);
         }
