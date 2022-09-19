@@ -10,12 +10,10 @@ namespace Gallerio.Infrastructure.Services.Repositories
     public class GalleryRepoJsonFile : IGalleryReadOnlyRepo, IGalleryUpdateRepo
     {
         private readonly JsonFileDb _db;
-        private readonly IGalleryFactory _galleryFactory;
 
-        public GalleryRepoJsonFile(JsonFileDb db, IGalleryFactory galleryFactory)
+        public GalleryRepoJsonFile(JsonFileDb db)
         {
             _db = db;
-            _galleryFactory = galleryFactory;
         }
 
         public async Task<Gallery> CreateGallery(string name)
@@ -29,12 +27,12 @@ namespace Gallerio.Infrastructure.Services.Repositories
         public async Task<Gallery> FindGallery(Guid id)
         {
             var galleryModel = (await _db.GetModel()).Galleries.SingleOrDefault(d => d.Id == id) ?? throw new GalleryNotFoundException();
-            return galleryModel.ToDomainModel(_galleryFactory);
+            return galleryModel.ToDomainModel();
         }
 
         public async Task<IReadOnlyCollection<Gallery>> GetGalleryList()
         {
-            return (await _db.GetModel()).Galleries.Select(d => d.ToDomainModel(_galleryFactory)).OrderBy(d => d.Name).ToArray();
+            return (await _db.GetModel()).Galleries.Select(d => d.ToDomainModel()).OrderBy(d => d.Name).ToArray();
         }
 
         public async Task<Gallery> UpdateGallery(Gallery gallery)

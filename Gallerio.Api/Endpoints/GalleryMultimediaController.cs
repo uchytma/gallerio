@@ -12,11 +12,16 @@ namespace Gallerio.Api.Endpoints
     public class GalleryMultimediaController : ControllerBase
     {
         private readonly IGalleryProvider _galleryProvider;
-        private readonly IMultimediaItemUpdater _muip;
+        private readonly IMultimediaItemUpdater _muiu;
+        private readonly IMultimediaItemProvider _muip;
 
-        public GalleryMultimediaController(IGalleryProvider galleryProvider, IMultimediaItemUpdater muip)
+        public GalleryMultimediaController(
+            IGalleryProvider galleryProvider, 
+            IMultimediaItemUpdater muiu, 
+            IMultimediaItemProvider muip)
         {
             _galleryProvider = galleryProvider;
+            _muiu = muiu;
             _muip = muip;
         }
 
@@ -28,7 +33,7 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItems = await gallery.LoadMultimediaItems();
+                var multimediaItems = await _muip.GetMultimediaItems(gallery);
                 return Ok(multimediaItems.Select(d => d.ToDto()));
             }
             catch (GalleryNotFoundException)
@@ -46,7 +51,7 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await gallery.FindMultimediaItem(multimediaItemId);
+                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
                 return Ok(multimediaItem.ToDto());
             }
             catch (GalleryNotFoundException)
@@ -67,7 +72,7 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await gallery.FindMultimediaItem(multimediaItemId);
+                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
                 return PhysicalFile(multimediaItem.FullPath, multimediaItem.MimeType, multimediaItem.Name, true);
             }
             catch (GalleryNotFoundException)
@@ -88,7 +93,7 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await gallery.FindMultimediaItem(multimediaItemId);
+                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
                 return Ok(new MultimediaItemTagsDto(multimediaItem.Tags.ToList()));
             }
             catch (GalleryNotFoundException)
@@ -109,9 +114,9 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await gallery.FindMultimediaItem(multimediaItemId);
+                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
                 multimediaItem.AddTag(model.Name);
-                await _muip.UpdateItem(multimediaItem);
+                await _muiu.UpdateItem(multimediaItem);
                 return Ok(new MultimediaItemTagsDto(multimediaItem.Tags.ToList()));
             }
             catch (GalleryNotFoundException)
@@ -136,9 +141,9 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await gallery.FindMultimediaItem(multimediaItemId);
+                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
                 multimediaItem.RemoveTag(tag);
-                await _muip.UpdateItem(multimediaItem);
+                await _muiu.UpdateItem(multimediaItem);
                 return Ok(new MultimediaItemTagsDto(multimediaItem.Tags.ToList()));
             }
             catch (GalleryNotFoundException)

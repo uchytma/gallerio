@@ -4,26 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection.Metadata.Ecma335;
 using Gallerio.Core.GalleryAggregate.Exceptions;
 using Gallerio.Core.Interfaces.Core;
 using Gallerio.Core.Interfaces.Infrastructure;
 
 namespace Gallerio.Infrastructure.Services.Repositories
 {
-
-
     public class DummyGalleryRepo : IGalleryReadOnlyRepo, IGalleryUpdateRepo
     {
 
         private List<Gallery> _galleries = new List<Gallery>();
 
-        private readonly IGalleryFactory _galleryFactory;
-
-        public DummyGalleryRepo(IGalleryFactory factory)
+        public DummyGalleryRepo()
         {
-            _galleryFactory = factory;
-            _galleries.Add(_galleryFactory.Create(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), 
+            
+            _galleries.Add(new Gallery(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), 
                 "Norsko", 
                 "description Norsko", 
                 "2022", 
@@ -32,7 +27,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
                 { 
                     new MultimediaSource(new Guid("7858785c-1234-4a08-b112-0347754e478d"), "C:\\dev\\gallerio\\099D5200") 
                 }));
-            _galleries.Add(_galleryFactory.Create(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), 
+            _galleries.Add(new Gallery(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), 
                 "Berlín", 
                 "description Berlín",
                 "2021",
@@ -55,7 +50,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
 
         public async Task<Gallery> CreateGallery(string name)
         {
-            var g = _galleryFactory.Create(Guid.NewGuid(), name, string.Empty, string.Empty, 0, Enumerable.Empty<MultimediaSource>());
+            var g = new Gallery(Guid.NewGuid(), name, string.Empty, string.Empty, 0, Enumerable.Empty<MultimediaSource>());
             _galleries.Add(g);
             return g;
         }

@@ -14,12 +14,15 @@ namespace Gallerio.Api.Endpoints
     {
         private readonly IGalleryProvider _galleryProvider;
         private readonly IGalleryUpdater _galleryUpdater;
-        
+        private readonly IMultimediaItemProvider _multimediaItemProvider;
 
-        public GalleryController(IGalleryProvider galleryProvider, IGalleryUpdater galleryUpdater)
+        public GalleryController(IGalleryProvider galleryProvider, 
+            IGalleryUpdater galleryUpdater, 
+            IMultimediaItemProvider multimediaItemProvider)
         {
             _galleryProvider = galleryProvider;
             _galleryUpdater = galleryUpdater;
+            _multimediaItemProvider = multimediaItemProvider;
         }
 
         [HttpGet]
@@ -95,7 +98,7 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                var items = await gallery.LoadMultimediaItems();
+                var items = await _multimediaItemProvider.GetMultimediaItems(gallery);
                 var itemsToExport = items.Where(d => d.Tags.Contains("TOP"));
                 var destDirName = Path.Combine("C:\\dev\\gallerio\\export", $"export_{Guid.NewGuid()}");
                 Directory.CreateDirectory(destDirName);

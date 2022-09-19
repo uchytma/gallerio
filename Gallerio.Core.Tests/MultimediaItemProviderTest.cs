@@ -17,16 +17,11 @@ namespace Gallerio.Core.Tests
 
         MultimediaItemProvider _imip;
         IMultimediaItemsReadonlyRepo _imirr;
-        private IMultimediaItemProvider _multimediaItemProvider;
-        private DummyMultimediaItemsRepo _itemsRepo;
         private DummyGalleryRepo _repo;
 
         public MultimediaItemProviderTest()
         {
-            _itemsRepo = new DummyMultimediaItemsRepo();
-            _multimediaItemProvider = new MultimediaItemProvider(_itemsRepo);
-            IGalleryFactory f = new GalleryFactory(_multimediaItemProvider);
-            _repo = new DummyGalleryRepo(f);
+            _repo = new DummyGalleryRepo();
             _imirr = new DummyMultimediaItemsRepo();
             _imip = new MultimediaItemProvider(_imirr);
         }

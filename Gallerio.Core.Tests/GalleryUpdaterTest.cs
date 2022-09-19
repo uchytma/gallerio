@@ -1,11 +1,8 @@
 using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Exceptions;
 using Gallerio.Core.GalleryAggregate.Services;
-using Gallerio.Core.Interfaces.Core;
-using Gallerio.Core.Tests.Services;
 using Gallerio.Infrastructure.Services.Repositories;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections;
+
 
 namespace Gallerio.Core.Tests
 {
@@ -16,16 +13,11 @@ namespace Gallerio.Core.Tests
         private Guid _nonExistingGalleryId = Guid.Empty;
         private GalleryUpdater _galleryUpdater;
         private DummyGalleryRepo _repo;
-        private IGalleryFactory _galleryFactory;
-        private IMultimediaItemProvider _multimediaItemProvider;
-        private DummyMultimediaItemsRepo _itemsRepo;
+
 
         public GalleryUpdaterTest()
         {
-            _itemsRepo = new DummyMultimediaItemsRepo();
-            _multimediaItemProvider = new MultimediaItemProvider(_itemsRepo);
-            _galleryFactory = new GalleryFactory(_multimediaItemProvider);
-            _repo = new DummyGalleryRepo(_galleryFactory);
+            _repo = new DummyGalleryRepo();
             _galleryUpdater = new GalleryUpdater(_repo);
             _existingGallery = _repo.GetExistingGalleries().First();
             _nonExistingGalleryId = _repo.GetNotExistingGalleryGuid();
@@ -63,7 +55,7 @@ namespace Gallerio.Core.Tests
             string randomDate = $"date_{Guid.NewGuid()}";
             int photosCount = 0;
 
-            var gallery = _galleryFactory.Create(_existingGallery.Id, randomName, randomDescription, randomDate, photosCount, Enumerable.Empty<MultimediaSource>());
+            var gallery = new Gallery(_existingGallery.Id, randomName, randomDescription, randomDate, photosCount, Enumerable.Empty<MultimediaSource>());
             var result = await _galleryUpdater.UpdateGallery(gallery);
 
             Assert.AreEqual(_existingGallery.Id, result.Id);
@@ -95,7 +87,7 @@ namespace Gallerio.Core.Tests
             if (_existingGallery is null) throw new NullReferenceException(nameof(_existingGallery));
 
             string randomName = $"name_{Guid.NewGuid()}";
-            var gallery = _galleryFactory.Create(_nonExistingGalleryId, randomName, string.Empty, string.Empty, 0, Enumerable.Empty<MultimediaSource>());
+            var gallery = new Gallery(_nonExistingGalleryId, randomName, string.Empty, string.Empty, 0, Enumerable.Empty<MultimediaSource>());
             var result = await _galleryUpdater.UpdateGallery(gallery);
         }
     }

@@ -14,15 +14,9 @@ namespace Gallerio.Core.Tests
     [TestClass]
     public class GalleryFactoryTest
     {
-        IGalleryFactory _galleryFactory;
-        private IMultimediaItemProvider _multimediaItemProvider;
-        private DummyMultimediaItemsRepo _itemsRepo;
 
         public GalleryFactoryTest()
         {
-            _itemsRepo = new DummyMultimediaItemsRepo();
-            _multimediaItemProvider = new MultimediaItemProvider(_itemsRepo);
-            _galleryFactory = new GalleryFactory(_multimediaItemProvider);
         }
 
         /// <summary>
@@ -38,7 +32,7 @@ namespace Gallerio.Core.Tests
             string date = $"date_{Guid.NewGuid}";
             int totalPhotosCount = 20;
 
-            var gallery = _galleryFactory.Create(guid, name, description, date, totalPhotosCount, Enumerable.Empty<MultimediaSource>());
+            var gallery = new Gallery(guid, name, description, date, totalPhotosCount, Enumerable.Empty<MultimediaSource>());
 
             Assert.AreEqual(guid, gallery.Id);
             Assert.AreEqual(name, gallery.Name);

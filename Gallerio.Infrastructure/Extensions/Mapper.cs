@@ -11,9 +11,9 @@ namespace Gallerio.Infrastructure.Extensions
 {
     internal static class Mapper
     {
-        internal static Gallery ToDomainModel(this GalleryModel model, IGalleryFactory galleryFactory)
+        internal static Gallery ToDomainModel(this GalleryModel model)
         {
-            return galleryFactory.Create(model.Id,
+            return new Gallery(model.Id,
                 model.Name,
                 model.Description, 
                 model.Date, 

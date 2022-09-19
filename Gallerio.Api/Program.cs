@@ -38,7 +38,6 @@ namespace Gallerio.Api
             builder.Services.AddSingleton<IGalleryUpdater, GalleryUpdater>();
             builder.Services.AddSingleton<IGalleryReadOnlyRepo, GalleryRepoJsonFile>();
             builder.Services.AddSingleton<IGalleryUpdateRepo, GalleryRepoJsonFile>();
-            builder.Services.AddSingleton<IGalleryFactory, GalleryFactory>();
             builder.Services.AddSingleton<IGalleryIndexerFactory, GalleryIndexerFactory>();
 
             builder.Services.AddSingleton<IMultimediaItemProvider, MultimediaItemProvider>();

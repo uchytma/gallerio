@@ -16,15 +16,10 @@ namespace Gallerio.Core.Tests
         private Guid _nonExistingGalleryId = Guid.Empty;
         private IEnumerable<Guid> _allGalleriesId = new Guid[0];
         private GalleryProvider _galleryProvider;
-        private IMultimediaItemProvider _multimediaItemProvider;
-        private DummyMultimediaItemsRepo _itemsRepo;
 
         public GalleryProviderTest()
         {
-            _itemsRepo = new DummyMultimediaItemsRepo();
-            _multimediaItemProvider = new MultimediaItemProvider(_itemsRepo);
-            IGalleryFactory f = new GalleryFactory(_multimediaItemProvider);
-            DummyGalleryRepo repo = new DummyGalleryRepo(f);
+            DummyGalleryRepo repo = new DummyGalleryRepo();
             _galleryProvider = new GalleryProvider(repo);
             _allGalleriesId = repo.GetExistingGalleries().Select(d => d.Id);
             _existingGallery = repo.GetExistingGalleries().First();

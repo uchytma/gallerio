@@ -9,17 +9,14 @@ namespace Gallerio.Core.GalleryAggregate
 {
     public class Gallery
     {
-        private readonly IMultimediaItemProvider _muip;
-
         private readonly List<MultimediaSource> _multimediaSources;
 
-        internal Gallery(Guid id, 
+        public Gallery(Guid id, 
             string name, 
             string description, 
             string date, 
             int totalPhotosCount, 
-            IEnumerable<MultimediaSource> multimediaSources, 
-            IMultimediaItemProvider muip)
+            IEnumerable<MultimediaSource> multimediaSources)
         {
             Id = id;
             Name = name;
@@ -27,7 +24,6 @@ namespace Gallerio.Core.GalleryAggregate
             Date = date;
             TotalPhotosCount = totalPhotosCount;
             _multimediaSources = multimediaSources.ToList();
-            _muip = muip;
         }
 
         public Guid Id { get; }
@@ -39,16 +35,6 @@ namespace Gallerio.Core.GalleryAggregate
         public string Date { get; set; }
 
         public int TotalPhotosCount { get; set; }
-
-        public async Task<IEnumerable<MultimediaItem>> LoadMultimediaItems()
-        {
-            return await _muip.GetMultimediaItems(this);
-        }
-
-        public async Task<MultimediaItem> FindMultimediaItem(Guid multimediaId)
-        {
-            return await _muip.FindMultimediaItem(this, multimediaId);
-        }
 
         public IReadOnlyCollection<MultimediaSource> GetMultimediaSources => _multimediaSources;
     }
