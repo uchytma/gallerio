@@ -1,5 +1,6 @@
 ﻿using Gallerio.Api.Dtos;
 using Gallerio.Api.Extensions;
+using Gallerio.Core.GalleryAggregate;
 using Gallerio.Core.GalleryAggregate.Exceptions;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces.Core;
@@ -50,8 +51,7 @@ namespace Gallerio.Api.Endpoints
         {
             try
             {
-                var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
+                var multimediaItem = await FindMultimediaItem(id, multimediaItemId);
                 return Ok(multimediaItem.ToDto());
             }
             catch (GalleryNotFoundException)
@@ -71,8 +71,7 @@ namespace Gallerio.Api.Endpoints
         {
             try
             {
-                var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
+                var multimediaItem = await FindMultimediaItem(id, multimediaItemId);
                 return PhysicalFile(multimediaItem.FullPath, multimediaItem.MimeType, multimediaItem.Name, true);
             }
             catch (GalleryNotFoundException)
@@ -92,8 +91,7 @@ namespace Gallerio.Api.Endpoints
         {
             try
             {
-                var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
+                var multimediaItem = await FindMultimediaItem(id, multimediaItemId);
                 return Ok(new MultimediaItemTagsDto(multimediaItem.Tags.ToList()));
             }
             catch (GalleryNotFoundException)
@@ -113,8 +111,7 @@ namespace Gallerio.Api.Endpoints
         {
             try
             {
-                var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
+                var multimediaItem = await FindMultimediaItem(id, multimediaItemId);
                 multimediaItem.AddTag(model.Name);
                 await _muiu.UpdateItem(multimediaItem);
                 return Ok(new MultimediaItemTagsDto(multimediaItem.Tags.ToList()));
@@ -140,8 +137,7 @@ namespace Gallerio.Api.Endpoints
         {
             try
             {
-                var gallery = await _galleryProvider.FindGallery(id);
-                var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
+                var multimediaItem = await FindMultimediaItem(id, multimediaItemId);
                 multimediaItem.RemoveTag(tag);
                 await _muiu.UpdateItem(multimediaItem);
                 return Ok(new MultimediaItemTagsDto(multimediaItem.Tags.ToList()));
@@ -158,6 +154,13 @@ namespace Gallerio.Api.Endpoints
             {
                 return Conflict("Tag not found.");
             }
+        }
+        
+        private async Task<MultimediaItem> FindMultimediaItem(Guid galleryId, Guid multimediaItemId)
+        {
+            var gallery = await _galleryProvider.FindGallery(galleryId);
+            var multimediaItem = await _muip.FindMultimediaItem(gallery, multimediaItemId);
+            return multimediaItem;
         }
     }
 }
