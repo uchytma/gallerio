@@ -10,6 +10,9 @@ Photo gallery management
 ## Techstack
 - BE: **.NET 6 (WebApi)**
 - FE: **.NET 6 (Blazor)**
+- External dependencies:
+  - MetadataExtractor (https://github.com/drewnoakes/metadata-extractor-dotnet)
+  - SixLabors.ImageSharp (https://github.com/SixLabors/ImageSharp)
 
 ## How to configure and run the project
 - Clone repo
