@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Gallerio.Core.GalleryAggregate
 {
-    public record MetadataResult<T>(DateTime? CaptureDateTime, T CustomData);
+    public record ExifCustomDataModel(List<string>? Tags);
 }

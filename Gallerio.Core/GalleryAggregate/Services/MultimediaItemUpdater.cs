@@ -11,10 +11,12 @@ namespace Gallerio.Core.GalleryAggregate.Services
     public class MultimediaItemUpdater : IMultimediaItemUpdater
     {
         private readonly IMultimediaItemsUpdateRepo _updateRepo;
+        private readonly IExifDataUpdater _exifUpdater;
 
-        public MultimediaItemUpdater(IMultimediaItemsUpdateRepo updateRepo)
+        public MultimediaItemUpdater(IMultimediaItemsUpdateRepo updateRepo, IExifDataUpdater exifUpdater)
         {
             _updateRepo = updateRepo;
+            _exifUpdater = exifUpdater;
         }
 
         public async Task ReplaceMultimediaItemsWith(MultimediaSource source, IEnumerable<MultimediaItem> mediaItems)
@@ -25,6 +27,7 @@ namespace Gallerio.Core.GalleryAggregate.Services
         public async Task UpdateItem(MultimediaItem multimediaItem)
         {
             await _updateRepo.UpdateItem(multimediaItem);
+            await _exifUpdater.SetExifCustomData(new ExifCustomDataModel(multimediaItem.Tags.ToList()), multimediaItem.FullPath);
         }
     }
 }

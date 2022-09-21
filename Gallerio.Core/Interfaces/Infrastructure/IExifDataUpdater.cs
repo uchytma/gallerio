@@ -1,5 +1,4 @@
-﻿using Gallerio.Core.GalleryAggregate;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Gallerio.Core.Interfaces.Infrastructure
 {
-    public interface IMetadataExtractor
+    public interface IExifDataUpdater
     {
-        public MetadataResult<T?> LoadMetadata<T>(string path);
+        public Task SetExifCustomData<T>(T data, string imageFullPath);
     }
 }

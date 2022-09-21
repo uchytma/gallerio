@@ -65,13 +65,13 @@ namespace Gallerio.Core.GalleryAggregate.Services
 
                 if (!SupportedMultimediaType(filePath)) continue;
 
-                var metadata = _imex.LoadMetadata(filePath);
+                var metadata = _imex.LoadMetadata<ExifCustomDataModel>(filePath);
 
                 var newFoundMultimediaItem = new MultimediaItem(Guid.NewGuid(), 
                     fileName, 
                     source, 
                     metadata.CaptureDateTime ?? DateTime.MinValue,
-                    Enumerable.Empty<string>());
+                    metadata.CustomData?.Tags ?? Enumerable.Empty<string>());
                 newResultItems.Add(newFoundMultimediaItem);
                 _mediaAdded++;
             }
