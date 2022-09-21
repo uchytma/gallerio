@@ -45,7 +45,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
                 gallery.Description,
                 gallery.Date, 
                 gallery.TotalPhotosCount,
-                gallery.GetMultimediaSources.Select(d => new MainJsonDb.MultimediaSource(d.Id, d.SourceDir)).ToList());
+                gallery.MultimediaSources.Select(d => new MainJsonDb.MultimediaSource(d.Id, d.SourceDir)).ToList());
             galleries.Add(model);
             await _db.PersistChangesToFile();
             return await FindGallery(gallery.Id);

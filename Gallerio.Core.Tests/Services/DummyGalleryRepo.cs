@@ -12,42 +12,7 @@ namespace Gallerio.Infrastructure.Services.Repositories
 {
     public class DummyGalleryRepo : IGalleryReadOnlyRepo, IGalleryUpdateRepo
     {
-
         private List<Gallery> _galleries = new List<Gallery>();
-
-        public DummyGalleryRepo()
-        {
-            
-            _galleries.Add(new Gallery(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"), 
-                "Norsko", 
-                "description Norsko", 
-                "2022", 
-                10, 
-                new MultimediaSource[] 
-                { 
-                    new MultimediaSource(new Guid("7858785c-1234-4a08-b112-0347754e478d"), "C:\\dev\\gallerio\\099D5200") 
-                }));
-
-            _galleries.Add(new Gallery(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"), 
-                "Berlín", 
-                "description Berlín",
-                "2021",
-                1000,
-                new MultimediaSource[]
-                {
-                    new MultimediaSource(new Guid("7858785c-5678-4a08-b112-0347754e4766"), "C:\\dev\\gallerio\\099D5200")
-                }));
-        }
-
-        /// <summary>
-        /// For testing purposes
-        /// </summary>
-        public List<Gallery> GetExistingGalleries() => _galleries;
-
-        /// <summary>
-        /// For testing purposes
-        /// </summary>
-        public Guid GetNotExistingGalleryGuid() => new Guid("12139721-7752-4d73-918f-1a4cba73c6cb");
 
         public async Task<Gallery> CreateGallery(string name)
         {
@@ -73,5 +38,40 @@ namespace Gallerio.Infrastructure.Services.Repositories
             _galleries.Add(gallery);
             return gallery;
         }
+
+        #region for testing purposes
+        public List<Gallery> GetExistingGalleries() => _galleries;
+
+        public Guid GetNotExistingGalleryGuid() => new Guid("12139721-7752-4d73-918f-1a4cba73c6cb");
+
+        public static DummyGalleryRepo CreateWithData()
+        {
+            List<Gallery> data = new List<Gallery>();
+            data.Add(new Gallery(new Guid("7858785c-e0a4-4a08-b112-0347754e478d"),
+                "Norsko",
+                "description Norsko",
+                "2022",
+                10,
+                new MultimediaSource[]
+                {
+                    new MultimediaSource(new Guid("7858785c-1234-4a08-b112-0347754e478d"), "C:\\dev\\gallerio\\099D5200")
+                }));
+
+            data.Add(new Gallery(new Guid("34139721-7752-4d73-918f-1a4cba73c6cb"),
+                "Berlín",
+                "description Berlín",
+                "2021",
+                1000,
+                new MultimediaSource[]
+                {
+                    new MultimediaSource(new Guid("7858785c-5678-4a08-b112-0347754e4766"), "C:\\dev\\gallerio\\099D5200")
+                }));
+
+            return new DummyGalleryRepo()
+            {
+                _galleries = data
+            };
+        }
+        #endregion
     }
 }

@@ -56,7 +56,7 @@ namespace Gallerio.Api.Endpoints
             try
             {
                 var gallery = await _galleryProvider.FindGallery(id);
-                return Ok(gallery.GetMultimediaSources.Select(d => d.ToDto()));
+                return Ok(gallery.MultimediaSources.Select(d => d.ToDto()));
             }
             catch (GalleryNotFoundException)
             {

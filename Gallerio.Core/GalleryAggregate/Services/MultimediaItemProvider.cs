@@ -20,7 +20,7 @@ namespace Gallerio.Core.GalleryAggregate.Services
 
         public async Task<MultimediaItem> FindMultimediaItem(Gallery gallery, Guid multimediaId)
         {
-            foreach (var source in gallery.GetMultimediaSources)
+            foreach (var source in gallery.MultimediaSources)
             {
                 var res = await this.FindMultimediaItem(source, multimediaId);
                 if (res is not null) return res;
@@ -32,7 +32,7 @@ namespace Gallerio.Core.GalleryAggregate.Services
         public async Task<IEnumerable<MultimediaItem>> GetMultimediaItems(Gallery gallery)
         {
             List<MultimediaItem> items = new List<MultimediaItem>();
-            foreach (var source in gallery.GetMultimediaSources)
+            foreach (var source in gallery.MultimediaSources)
             {
                 items.AddRange(await GetMultimediaItems(source));
             }

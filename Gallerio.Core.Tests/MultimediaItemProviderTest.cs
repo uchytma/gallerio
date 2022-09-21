@@ -3,6 +3,8 @@ using Gallerio.Core.GalleryAggregate.Exceptions;
 using Gallerio.Core.GalleryAggregate.Services;
 using Gallerio.Core.Interfaces.Core;
 using Gallerio.Core.Interfaces.Infrastructure;
+using Gallerio.Core.Tests.Comparers;
+using Gallerio.Core.Tests.Extensions;
 using Gallerio.Core.Tests.Services;
 using Gallerio.Infrastructure.Services.Repositories;
 using System;
@@ -15,29 +17,17 @@ using System.Threading.Tasks;
 namespace Gallerio.Core.Tests
 {
     [TestClass]
-    public class MultimediaItemProviderTest
+    public class MultimediaItemProviderTest : MultimediaItemTestBase
     {
+        private MultimediaItemProvider _mip;
 
-        private MultimediaItemProvider _imip;
-        private DummyMultimediaItemsRepo _imirr;
-        private DummyGalleryRepo _repo;
 
         public MultimediaItemProviderTest()
         {
-            _repo = new DummyGalleryRepo();
-            _imirr = new DummyMultimediaItemsRepo();
-            _imip = new MultimediaItemProvider(_imirr);
+            _mip = new MultimediaItemProvider(DummyMultimediaItemsRepo);
         }
 
-        private async Task<(Gallery gallery, MultimediaSource source, Guid itemGuid)> Arrange()
-        {
-            var galleryToTest = _repo.GetExistingGalleries().First();
-            var multimediaSourceToTest = galleryToTest.GetMultimediaSources.First();
-            var guidTestItem = new Guid("d1f91baf-a935-4bf5-93c1-c2034a1690d4");
-            await _imirr.CreateDefaultSourceItems(multimediaSourceToTest);
-            return (galleryToTest, multimediaSourceToTest, guidTestItem);
-        }
-
+     
         /// <summary>
         /// Test that we can find valid multimedia items in gallery.
         /// </summary>
@@ -45,19 +35,16 @@ namespace Gallerio.Core.Tests
         [TestMethod]
         public async Task TestGetMultimediaItemsInGallery()
         {
-            //arrange
             var arrangedEnv = await Arrange();
 
-            //act
-            var multimediaItems = (await _imip.GetMultimediaItems(arrangedEnv.gallery)).ToList();
+            var multimediaItems = (await _mip.GetMultimediaItems(arrangedEnv.Gallery)).ToList();
 
-            //test
             Assert.AreEqual(2, multimediaItems.Count);
 
             //Select one media item and test its properties.
-            var testItem = multimediaItems.SingleOrDefault(d => d.Id == arrangedEnv.itemGuid);
+            var testItem = multimediaItems.SingleOrDefault(d => d.Id == arrangedEnv.Item.Id);
             Assert.IsNotNull(testItem);
-            Assert.AreEqual(arrangedEnv.itemGuid, testItem.Id);
+            CustomAssert.AreEqual(arrangedEnv.Item, testItem, new MultimediaItemEqualityComparer());
         }
 
         /// <summary>
@@ -67,19 +54,16 @@ namespace Gallerio.Core.Tests
         [TestMethod]
         public async Task TestGetMultimediaItemsInSource()
         {
-            //arrange
             var arrangedEnv = await Arrange();
 
-            //act
-            var multimediaItems = (await _imip.GetMultimediaItems(arrangedEnv.source)).ToList();
+            var multimediaItems = (await _mip.GetMultimediaItems(arrangedEnv.Source)).ToList();
 
-            //test
             Assert.AreEqual(2, multimediaItems.Count);
 
             //Select one media item and test its properties.
-            var testItem = multimediaItems.SingleOrDefault(d => d.Id == arrangedEnv.itemGuid);
+            var testItem = multimediaItems.SingleOrDefault(d => d.Id == arrangedEnv.Item.Id);
             Assert.IsNotNull(testItem);
-            Assert.AreEqual(arrangedEnv.itemGuid, testItem.Id);
+            CustomAssert.AreEqual(arrangedEnv.Item, testItem, new MultimediaItemEqualityComparer());
         }
 
         /// <summary>
@@ -89,22 +73,12 @@ namespace Gallerio.Core.Tests
         [TestMethod]
         public async Task TestFindMultimediaInGallery()
         {
-            //arrange
             var arrangedEnv = await Arrange();
 
-            //act
-            var multimediaItem = (await _imip.FindMultimediaItem(arrangedEnv.gallery, arrangedEnv.itemGuid));
+            var multimediaItem = (await _mip.FindMultimediaItem(arrangedEnv.Gallery, arrangedEnv.Item.Id));
 
-            //test
             Assert.IsNotNull(multimediaItem);
-            Assert.AreEqual(arrangedEnv.itemGuid, multimediaItem.Id);
-            Assert.AreEqual("test1.jpg", multimediaItem.Name);
-            Assert.AreEqual(arrangedEnv.source, multimediaItem.Source);
-            Assert.AreEqual("dir\\test1.jpg", multimediaItem.PartialPath);
-            Assert.AreEqual("image/jpeg", multimediaItem.MimeType);
-            Assert.AreEqual("C:\\dev\\gallerio\\099D5200\\dir\\test1.jpg", multimediaItem.FullPath);
-            Assert.AreEqual(DateTime.MinValue, multimediaItem.CapturedDateTime);
-            Assert.IsTrue(!multimediaItem.Tags.Any());
+            CustomAssert.AreEqual(arrangedEnv.Item, multimediaItem, new MultimediaItemEqualityComparer());
         }
 
         /// <summary>
@@ -115,14 +89,10 @@ namespace Gallerio.Core.Tests
         [ExpectedException(typeof(MultimediaItemNotFoundException))]
         public async Task TestFindMultimediaInGalleryNotFound()
         {
-            //arrange
             var arrangedEnv = await Arrange();
             var guidTestItemNotExists = new Guid("d1f91baf-a935-4bf5-93c1-c2034a1690d3");
 
-            //act
-            var _ = (await _imip.FindMultimediaItem(arrangedEnv.gallery, guidTestItemNotExists));
+            var _ = (await _mip.FindMultimediaItem(arrangedEnv.Gallery, guidTestItemNotExists));
         }
-
-
     }
 }

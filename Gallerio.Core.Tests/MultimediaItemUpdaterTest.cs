@@ -1,5 +1,8 @@
 ﻿using Gallerio.Core.GalleryAggregate;
+using Gallerio.Core.GalleryAggregate.Exceptions;
 using Gallerio.Core.GalleryAggregate.Services;
+using Gallerio.Core.Tests.Comparers;
+using Gallerio.Core.Tests.Extensions;
 using Gallerio.Core.Tests.Services;
 using Gallerio.Infrastructure.Services.Repositories;
 using System;
@@ -11,26 +14,13 @@ using System.Threading.Tasks;
 namespace Gallerio.Core.Tests
 {
     [TestClass]
-    public class MultimediaItemUpdaterTest
+    public class MultimediaItemUpdaterTest : MultimediaItemTestBase
     {
         private MultimediaItemUpdater _imiu;
-        private DummyMultimediaItemsRepo _imirr;
-        private DummyGalleryRepo _repo;
 
         public MultimediaItemUpdaterTest()
         {
-            _repo = new DummyGalleryRepo();
-            _imirr = new DummyMultimediaItemsRepo();
-            _imiu = new MultimediaItemUpdater(_imirr);
-        }
-
-        private async Task<(Gallery gallery, MultimediaSource source, Guid itemGuid)> Arrange()
-        {
-            var galleryToTest = _repo.GetExistingGalleries().First();
-            var multimediaSourceToTest = galleryToTest.GetMultimediaSources.First();
-            var guidTestItem = new Guid("d1f91baf-a935-4bf5-93c1-c2034a1690d4");
-            await _imirr.CreateDefaultSourceItems(multimediaSourceToTest);
-            return (galleryToTest, multimediaSourceToTest, guidTestItem);
+            _imiu = new MultimediaItemUpdater(DummyMultimediaItemsRepo);
         }
 
         /// <summary>
@@ -44,20 +34,20 @@ namespace Gallerio.Core.Tests
             var arrange = await Arrange();
 
             //test current state
-            var currentItem = await _imirr.FindMultimediaItem(arrange.source, arrange.itemGuid);
+            var currentItem = await DummyMultimediaItemsRepo.FindMultimediaItem(arrange.Source, arrange.Item.Id);
             Assert.IsNotNull(currentItem);
             Assert.AreEqual("dir\\test1.jpg", currentItem.PartialPath);
-            Assert.AreEqual(arrange.itemGuid, currentItem.Id);
+            Assert.AreEqual(arrange.Item.Id, currentItem.Id);
 
             //update
-            MultimediaItem mi = new MultimediaItem(currentItem.Id, "dir\\changed.jpg", arrange.source, currentItem.CapturedDateTime, currentItem.Tags);
+            MultimediaItem mi = new MultimediaItem(currentItem.Id, "dir\\changed.jpg", arrange.Source, currentItem.CapturedDateTime, currentItem.Tags);
             await _imiu.UpdateItem(mi);
 
             //test updated item
-            var updatedItem = await _imirr.FindMultimediaItem(arrange.source, arrange.itemGuid);
+            var updatedItem = await DummyMultimediaItemsRepo.FindMultimediaItem(arrange.Source, arrange.Item.Id);
             Assert.IsNotNull(updatedItem);
             Assert.AreEqual("dir\\changed.jpg", updatedItem.PartialPath);
-            Assert.AreEqual(arrange.itemGuid, updatedItem.Id);
+            Assert.AreEqual(arrange.Item.Id, updatedItem.Id);
         }
 
         /// <summary>
@@ -71,23 +61,22 @@ namespace Gallerio.Core.Tests
             var arrange = await Arrange();
             IEnumerable<MultimediaItem> toReplace = new MultimediaItem[]
             {
-                new MultimediaItem(Guid.NewGuid(), "test99.jpg", arrange.source, DateTime.MaxValue, Enumerable.Empty<string>()),
-                new MultimediaItem(Guid.NewGuid(), "test100.jpg", arrange.source, DateTime.Now, new string[] { "a", "b", "c" }),
+                new MultimediaItem(Guid.NewGuid(), "test99.jpg", arrange.Source, DateTime.MaxValue, Enumerable.Empty<string>()),
+                new MultimediaItem(Guid.NewGuid(), "test100.jpg", arrange.Source, DateTime.Now, new string[] { "a", "b", "c" }),
             };
 
             //replace
-            await _imiu.ReplaceMultimediaItemsWith(arrange.source, toReplace);
+            await _imiu.ReplaceMultimediaItemsWith(arrange.Source, toReplace);
 
             //test
-            var updatedItems = await _imirr.GetMultimediaItems(arrange.source);
+            var updatedItems = await DummyMultimediaItemsRepo.GetMultimediaItems(arrange.Source);
             Assert.IsTrue(toReplace.Count() == updatedItems.Count);
 
             foreach (var updatedItem in updatedItems)
             {
                 var sourceItem = toReplace.FirstOrDefault(d => d.Id == updatedItem.Id);
                 Assert.IsNotNull(sourceItem);
-                Assert.AreEqual(sourceItem.Id, updatedItem.Id);
-                Assert.AreEqual(sourceItem.Name, updatedItem.Name);
+                CustomAssert.AreEqual(sourceItem, updatedItem, new MultimediaItemEqualityComparer());
             }
         }
     }

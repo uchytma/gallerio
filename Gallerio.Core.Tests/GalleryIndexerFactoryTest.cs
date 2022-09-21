@@ -28,8 +28,7 @@ namespace Gallerio.Core.Tests
         {
             var instance1 = _gif.Create();
             var instance2 = _gif.Create();
-            Assert.AreNotEqual(instance1, instance2);
+            Assert.IsFalse(Object.ReferenceEquals(instance1, instance2));
         }
-
     }
 }

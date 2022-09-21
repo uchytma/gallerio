@@ -36,6 +36,6 @@ namespace Gallerio.Core.GalleryAggregate
 
         public int TotalPhotosCount { get; set; }
 
-        public IReadOnlyCollection<MultimediaSource> GetMultimediaSources => _multimediaSources;
+        public IReadOnlyCollection<MultimediaSource> MultimediaSources => _multimediaSources;
     }
 }

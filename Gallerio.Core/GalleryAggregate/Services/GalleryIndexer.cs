@@ -33,7 +33,7 @@ namespace Gallerio.Core.GalleryAggregate.Services
 
         public async Task<ReindexMultimediaResourcesResponse> ReindexMultimediaResources(Gallery gallery)
         {
-            var sources = gallery.GetMultimediaSources;
+            var sources = gallery.MultimediaSources;
             List<MultimediaItem> mediaItems = new List<MultimediaItem>();
 
             foreach (var source in sources)
