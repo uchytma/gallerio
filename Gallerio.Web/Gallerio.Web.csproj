@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gallerio.Api.ViewModels\Gallerio.Api.Dtos.csproj" />
+    <ProjectReference Include="..\Gallerio.Api.Dtos\Gallerio.Api.Dtos.csproj" />
   </ItemGroup>
 
 </Project>
