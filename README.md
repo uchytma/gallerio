@@ -15,7 +15,7 @@ Photo gallery management
 - Clone repo
 - Create database file at custom location. Database file structure is described bellow.
 - Set Application.DatabasePath in user secrets (project Gallerio.Api) to database file.
-- Run Gallerio.Api and Gallerio.Web.Client projects.
+- Run Gallerio.Api and Gallerio.Web projects.
 - Manually call /api/gallery/{id}/multimediaSources/reindex API endpoint for each gallery.
 - Now you can browse galleries in the web UI 🥳.
 
