@@ -1,6 +1,6 @@
 ﻿using Gallerio.Api.Dtos;
 
-namespace Gallerio.Web.Client.Model
+namespace Gallerio.Web.Model
 {
     public class MultimediaItem
     {
@@ -9,7 +9,7 @@ namespace Gallerio.Web.Client.Model
             MultimediaItemDto = multimediaItemDto;
         }
 
-        public MultimediaItemDto MultimediaItemDto { get;}
+        public MultimediaItemDto MultimediaItemDto { get; }
 
         public string GetLinkRaw(Guid galleryId) => $"https://localhost:7173/api/gallery/{galleryId}/multimedia/{MultimediaItemDto.Id}/raw";
 

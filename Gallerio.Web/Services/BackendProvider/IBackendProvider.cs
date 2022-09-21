@@ -1,4 +1,4 @@
-﻿namespace Gallerio.Web.Client.Services.BackendProvider
+﻿namespace Gallerio.Web.Services.BackendProvider
 {
     public interface IBackendProvider
     {

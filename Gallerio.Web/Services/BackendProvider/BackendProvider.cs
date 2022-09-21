@@ -1,7 +1,7 @@
-﻿using Gallerio.Web.Client.Options;
+﻿using Gallerio.Web.Options;
 using Microsoft.Extensions.Options;
 
-namespace Gallerio.Web.Client.Services.BackendProvider
+namespace Gallerio.Web.Services.BackendProvider
 {
     public class BackendProvider : IBackendProvider
     {

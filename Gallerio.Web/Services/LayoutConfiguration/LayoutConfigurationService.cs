@@ -1,4 +1,4 @@
-﻿namespace Gallerio.Web.Client.Services.LayoutConfiguration
+﻿namespace Gallerio.Web.Services.LayoutConfiguration
 {
     public class LayoutConfigurationService : ILayoutConfigurationService
     {

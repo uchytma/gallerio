@@ -1,13 +1,14 @@
 ﻿@page "/galleries/{GalleryId}"
 @using Gallerio.Api.Dtos
-@using Gallerio.Web.Client.Options
-@using Gallerio.Web.Client.Services.BackendProvider
-@using Gallerio.Web.Client.Services.LayoutConfiguration
-@using Gallerio.Web.Client.Shared.Atoms
-@using Gallerio.Web.Client.Shared.Molecules
+@using Gallerio.Web.Options
+@using Gallerio.Web.Services.BackendProvider
+@using Gallerio.Web.Services.Breadcrumbs
+@using Gallerio.Web.Services.LayoutConfiguration
+@using Gallerio.Web.Shared.Atoms
+@using Gallerio.Web.Shared.Molecules
 @inject HttpClient Http
 @inject ILayoutConfigurationService _layoutConfigurationService
-@inject Gallerio.Web.Client.Services.Breadcrumbs.IBreadcrumbsProvider _breadcrumbsProvider
+@inject IBreadcrumbsProvider _breadcrumbsProvider
 @inject NavigationManager _navManager
 @inject IJSRuntime JsRuntime
 @inject IBackendProvider _backendProvider

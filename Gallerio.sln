@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{0E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Api.Dtos", "Gallerio.Api.ViewModels\Gallerio.Api.Dtos.csproj", "{81C726AC-5B0E-4BFF-878A-68BF5AE0AD65}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Web.Client", "Gallerio.Web\Gallerio.Web.Client.csproj", "{173A6446-F305-47D1-B3C1-56CE03E22482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gallerio.Web", "Gallerio.Web\Gallerio.Web.csproj", "{173A6446-F305-47D1-B3C1-56CE03E22482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

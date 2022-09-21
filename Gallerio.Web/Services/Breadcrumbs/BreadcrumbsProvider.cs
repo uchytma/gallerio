@@ -1,4 +1,4 @@
-﻿namespace Gallerio.Web.Client.Services.Breadcrumbs
+﻿namespace Gallerio.Web.Services.Breadcrumbs
 {
     public class BreadcrumbsProvider : IBreadcrumbsProvider
     {

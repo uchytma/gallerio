@@ -1,4 +1,4 @@
-﻿namespace Gallerio.Web.Client.Options
+﻿namespace Gallerio.Web.Options
 {
     public class BackendOptions
     {

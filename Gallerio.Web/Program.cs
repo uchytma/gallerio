@@ -1,13 +1,12 @@
-using Gallerio.Web.Client;
-using Gallerio.Web.Client.Options;
-using Gallerio.Web.Client.Services.BackendProvider;
-using Gallerio.Web.Client.Services.Breadcrumbs;
-using Gallerio.Web.Client.Services.LayoutConfiguration;
+using Gallerio.Web.Options;
+using Gallerio.Web.Services.BackendProvider;
+using Gallerio.Web.Services.Breadcrumbs;
+using Gallerio.Web.Services.LayoutConfiguration;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gallerio.Web.Client
+namespace Gallerio.Web
 {
     public class Program
     {
