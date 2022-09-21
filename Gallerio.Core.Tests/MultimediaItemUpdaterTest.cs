@@ -16,11 +16,11 @@ namespace Gallerio.Core.Tests
     [TestClass]
     public class MultimediaItemUpdaterTest : MultimediaItemTestBase
     {
-        private MultimediaItemUpdater _imiu;
+        private readonly MultimediaItemUpdater _imiu;
 
         public MultimediaItemUpdaterTest()
         {
-            _imiu = new MultimediaItemUpdater(DummyMultimediaItemsRepo);
+            _imiu = new MultimediaItemUpdater(DummyMultimediaItemsRepo, new DummyExifUpdater());
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Gallerio.Core.Tests
             Assert.AreEqual(arrange.Item.Id, currentItem.Id);
 
             //update
-            MultimediaItem mi = new MultimediaItem(currentItem.Id, "dir\\changed.jpg", arrange.Source, currentItem.CapturedDateTime, currentItem.Tags);
+            var mi = new MultimediaItem(currentItem.Id, "dir\\changed.jpg", arrange.Source, currentItem.CapturedDateTime, currentItem.Tags);
             await _imiu.UpdateItem(mi);
 
             //test updated item
