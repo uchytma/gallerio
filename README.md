@@ -2,9 +2,9 @@
 Photo gallery management
 
 ## Features
-- Manage image galleries. One gallery can contains images from different directories.
-- Browse image in galleries; which are sorted by capture date.
-- Every image can be tagged by multiple tags. Tags are stored in gallerio metadata file and in EXIF data of every image.
+- Manage multiple image galleries. One gallery can contains images from different directories.
+- Browse images in galleries; which are sorted by capture date.
+- Each image can be marked with multiple tags. Tags are stored in gallerio metadata file and in EXIF data of image.
 - Images with specified tags can be exported (copied) to different location (API function only).
 
 ## Techstack
